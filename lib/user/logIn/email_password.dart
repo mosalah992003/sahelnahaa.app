@@ -74,7 +74,7 @@ class EmailPasswordWidgetState extends State<EmailPasswordWidget> {
                             child: const Text(
                               'نسيت كلمة المرور؟',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Color(0xFFF2A941),
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Noto',
                               ),

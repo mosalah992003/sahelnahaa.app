@@ -191,9 +191,16 @@ class _HomePageState extends State<HomePage> {
       endDrawer: const CustomDrawer(),
       body: ListView(
         children: [
+          SizedBox(
+            height: 16,
+          ),
+          CustomText(
+            name: 'عرض الكل',
+            namee: 'العروض ',
+          ),
           Padding(
             padding: EdgeInsets.only(
-                top: height * 0.025, right: width * 0.05, left: width * 0.05),
+                top: 8, right: width * 0.05, left: width * 0.05),
             child: const PromoCard(),
           ),
           SizedBox(height: height * 0.035),

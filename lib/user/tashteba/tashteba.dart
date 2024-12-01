@@ -1,321 +1,193 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:sahelnahaa/user/tashteba/arrow.dart';
+import 'package:sahelnahaa/user/tashteba/custom_tashteba.dart';
 
-class Tashteba extends StatelessWidget {
+// List of images to cycle through
+final List<String> tashtebaPagesImages = [
+  'assets/shop/card.png',
+  'assets/shop/Card (1).png',
+  "assets/shop/card (2).png",
+  'assets/shop/Card (3).png',
+  'assets/cards/card (4).png',
+  'assets/shop/card (5).png',
+];
+
+class Tashteba extends StatefulWidget {
   const Tashteba({super.key});
 
   @override
+  _TashtebaState createState() => _TashtebaState();
+}
+
+class _TashtebaState extends State<Tashteba> {
+  int currentPageIndex = 0;
+
+  void _goToNextPage() {
+    setState(() {
+      if (currentPageIndex < (tashtebaPagesImages.length / 2).floor()) {
+        currentPageIndex++;
+      }
+    });
+  }
+
+  void _goToPreviousPage() {
+    setState(() {
+      if (currentPageIndex > 0) {
+        currentPageIndex--;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Get screen dimensions
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // Determine the colors for the arrows based on the current page
+    Color leftArrowColor = Colors.white;
+    Color rightArrowColor = const Color(0xff207768);
+
+    if (currentPageIndex == 1) {
+      // Both arrows are green on page 2
+      leftArrowColor = const Color(0xff207768);
+      rightArrowColor = const Color(0xff207768);
+    } else if (currentPageIndex == 2) {
+      // Left arrow is green, right arrow is white on page 3
+      leftArrowColor = const Color(0xff207768);
+      rightArrowColor = Colors.white;
+    }
 
     return Scaffold(
-      backgroundColor: const Color(0xff207768),
       appBar: AppBar(
+        toolbarHeight: 80,
         backgroundColor: const Color(0xff207768),
         automaticallyImplyLeading: false,
-        title: const Center(
-          child: Text(
-            'تشطيبة',
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              color: Color(0xFFFAFAFA),
-              fontSize: 22,
-              fontFamily: 'noto',
-              fontWeight: FontWeight.w700,
-            ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(32.0),
+            bottomRight: Radius.circular(32.0),
           ),
         ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(
-            vertical: screenHeight * 0.02), // Padding based on screen height
-        children: const [
-          CustomTashteba2(
-            day: '4 أيام',
-            job: '   تركيب جميع أدوات السباكة ',
-            photo_card: 'assets/cards/Select Inverse 1.png',
-            price_job: '4200',
-            title_crad: 'سباكة',
-          ),
-          CustomTashteba2(
-              day: '12 أيام',
-              job: '            دهان ونقاشة كاملة ',
-              photo_card: 'assets/cards/22 1.png',
-              price_job: "7500",
-              title_crad: 'نقاشة'),
-          CustomTashteba2(
-              day: '3 أيام',
-              job: ' تركيب الكهرباء والسعر للغرفة',
-              photo_card: "assets/cards/55 1.png",
-              price_job: "4000",
-              title_crad: 'كهرباء'),
-          CustomTashteba2(
-              day: '20 أيام',
-              job: '        تأسيس حداده و مقاولة',
-              photo_card: "assets/cards/88 1.png",
-              price_job: "50000",
-              title_crad: 'حدادة'),
-          CustomTashteba2(
-              day: '3 أيام',
-              job: 'تأسيس النجارة بجميع انواعها',
-              photo_card: "assets/cards/336 1.png",
-              price_job: "8000",
-              title_crad: 'نجارة'),
-          CustomTashteba2(
-              day: '3 أيام',
-              job: 'تركيب سيراميك والسعر للغرفة',
-              photo_card: "assets/cards/44.png",
-              price_job: "2000",
-              title_crad: 'سيراميك'),
-          CustomTashteba2(
-              day: '3 أيام',
-              job: '    تركيب ستائر والسعر للغرفة',
-              photo_card: "assets/cards/11 1.png",
-              price_job: "5000",
-              title_crad: 'ديكور')
-        ],
-      ),
-    );
-  }
-}
-
-class CustomTashteba2 extends StatefulWidget {
-  const CustomTashteba2({
-    required this.day,
-    required this.job,
-    required this.photo_card,
-    required this.price_job,
-    required this.title_crad,
-  });
-
-  final String title_crad;
-  final String job;
-  final String day;
-  final String price_job;
-  final String photo_card;
-
-  @override
-  State<CustomTashteba2> createState() => _CustomTashteba2State();
-}
-
-class _CustomTashteba2State extends State<CustomTashteba2> {
-  bool isHeartPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    // Get screen dimensions
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Padding(
-      padding: EdgeInsets.only(
-          top: 10, right: screenWidth * 0.05, left: screenWidth * 0.05),
-      child: Container(
-        width: screenWidth * 0.95, // Width is 95% of screen width
-        height: screenWidth * 0.45, // Responsive height
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Card(
-          elevation: 5,
-          color: Colors.white,
-          child: Column(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10, bottom: 15),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: screenWidth * 0.04, right: screenWidth * 0.25),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isHeartPressed = !isHeartPressed;
-                        });
-                      },
-                      child: Container(
-                        width: screenWidth * 0.07, // Responsive width
-                        height: screenWidth * 0.07, // Responsive height
-                        decoration: BoxDecoration(
-                          color: isHeartPressed
-                              ? const Color(0xFF207768)
-                              : Colors.grey,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          IconsaxPlusLinear.heart,
-                          size: screenWidth * 0.045, // Responsive icon size
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // Use Expanded to handle text overflow
-                    child: Padding(
-                      padding: EdgeInsets.only(right: screenWidth * 0.4),
-                      child: Text(
-                        widget.title_crad,
-                        style: TextStyle(
-                          color: const Color(0xFF1B2431),
-                          fontSize: screenWidth * 0.04, // Responsive font size
-                          fontFamily: 'noto',
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.47,
-                        ),
-                        textAlign:
-                            TextAlign.right, // Right-align for Arabic text
-                      ),
-                    ),
-                  ),
-                ],
+              Image.asset(
+                "assets/shop/logo.png",
+                width: 28,
+                height: 24,
               ),
-              const Divider(
-                endIndent: 18,
-                indent: 18,
+              const SizedBox(width: 5),
+              const Text(
+                'تشطيبة',
+                style: TextStyle(
+                  color: Color(0xFFECECEC),
+                  fontSize: 14,
+                  fontFamily: 'noto',
+                  fontWeight: FontWeight.w500,
+                  height: 0.11,
+                ),
               ),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // Align left
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.04),
-                        child: Text(
-                          widget.job,
-                          style: TextStyle(
-                            color: const Color(0xFF252525),
-                            fontSize:
-                                screenWidth * 0.035, // Responsive font size
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: screenWidth * 0.25, top: 3, bottom: 3),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              IconsaxPlusLinear.rotate_right,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                                width:
-                                    screenWidth * 0.01), // Responsive spacing
-                            Text(
-                              widget.day,
-                              style: TextStyle(
-                                color: const Color(0xFF777777),
-                                fontSize:
-                                    screenWidth * 0.03, // Responsive font size
-                                fontFamily: 'noto',
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.40,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.25),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              IconsaxPlusLinear.money_add,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  ' جنية',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: const Color(0xFF20776B),
-                                    fontSize: screenWidth *
-                                        0.035, // Responsive font size
-                                    fontFamily: 'noto',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(
-                                    width: screenWidth *
-                                        0.01), // Responsive spacing
-                                Text(
-                                  widget.price_job,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: const Color(0xFF20776B),
-                                    fontSize: screenWidth *
-                                        0.035, // Responsive font size
-                                    fontFamily: 'noto',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: screenWidth * 0.02), // Responsive spacing
-                  Padding(
-                    padding: EdgeInsets.only(right: screenWidth * 0.02),
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: screenWidth * 0.30, // Responsive width
-                          height: screenWidth * 0.25, // Responsive height
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(17.83),
-                            ),
-                            image: DecorationImage(
-                              image: AssetImage(widget.photo_card),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: screenWidth * 0.30, // Responsive width
-                          height: screenWidth * 0.25, // Responsive height
-                          decoration: BoxDecoration(
-                            color: Colors.black
-                                .withOpacity(0.2), // Opacity overlay
-                            borderRadius: BorderRadius.circular(17.83),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    right: screenWidth * 0.7), // Responsive padding
+              const SizedBox(width: 20),
+              Expanded(
                 child: Container(
-                  width: screenWidth * 0.1, // Responsive width
-                  height: screenWidth * 0.06, // Responsive height
-                  decoration: ShapeDecoration(
-                    color: const Color(0xff207768),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE7E7E7),
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  child: const Icon(
-                    IconsaxPlusLinear.arrow_left,
-                    color: Colors.white,
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 7),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText:
+                            '                           ...إبحث عن تشطيبة',
+                        hintStyle: TextStyle(
+                          color: Color(0xFF676767),
+                          fontSize: 12,
+                          fontFamily: 'noto',
+                          fontWeight: FontWeight.w500,
+                        ),
+                        suffixIcon: Icon(IconsaxPlusLinear.search_normal),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+      body: ListView(
+        children: [
+          const SizedBox(height: 28),
+          CustomTashteba(image: tashtebaPagesImages[currentPageIndex * 2]),
+          const SizedBox(height: 24),
+          if (currentPageIndex * 2 + 1 < tashtebaPagesImages.length)
+            CustomTashteba(
+                image: tashtebaPagesImages[currentPageIndex * 2 + 1]),
+          const SizedBox(height: 24),
+          const Divider(indent: 30, endIndent: 30),
+          const SizedBox(height: 15),
+          Row(
+            children: [
+              const SizedBox(width: 110),
+              GestureDetector(
+                onTap: _goToPreviousPage,
+                child: Arrow(
+                  color: leftArrowColor,
+                  icon: const Icon(IconsaxPlusLinear.arrow_left),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '0${currentPageIndex + 1}',
+                      style: const TextStyle(
+                        color: Color(0xFFA5A5A5),
+                        fontSize: 14,
+                        fontFamily: 'noto',
+                        fontWeight: FontWeight.w500,
+                        height: 0.11,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: ' of ',
+                      style: TextStyle(
+                        color: Color(0xFF999999),
+                        fontSize: 14,
+                        fontFamily: 'noto',
+                        fontWeight: FontWeight.w500,
+                        height: 0.11,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '0${(tashtebaPagesImages.length / 2).ceil()}',
+                      style: const TextStyle(
+                        color: Color(0xFF646262),
+                        fontSize: 14,
+                        fontFamily: 'noto',
+                        fontWeight: FontWeight.w500,
+                        height: 0.11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 15),
+              GestureDetector(
+                onTap: _goToNextPage,
+                child: Arrow(
+                  color: rightArrowColor,
+                  icon: const Icon(IconsaxPlusLinear.arrow_right),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 50),
+        ],
       ),
     );
   }

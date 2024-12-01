@@ -31,43 +31,56 @@ class _WelcomeState extends State<Welcome> {
         screenSize.width * 0.04; // 4% of screen width
 
     return Scaffold(
-      backgroundColor: const Color(0xff207768),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  top: screenSize.height * 0.03), // 20% of screen height
-              child: Image.asset(
-                "assets/images/Welcome (2).png",
-                width: imageWidth * 1.2, // Increased width by 20%
-                height: imageHeight * 1.2, // Increased height by 20%
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xFF215F56), // The specific color you requested
+              Color(0xff207768), // Your original background color
+            ],
+            stops: [0.1, 0.3], // Adjust the gradient stop to control height
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    top: screenSize.height * 0.03), // 20% of screen height
+                child: Image.asset(
+                  "assets/images/Welcome (2).png",
+                  width: imageWidth * 1.2, // Increased width by 20%
+                  height: imageHeight * 1.2, // Increased height by 20%
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Text(
-              'تم إنشاء حسابك بنجاح',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: titleFontSize,
-                fontFamily: 'noto',
-                fontWeight: FontWeight.w800,
+              const SizedBox(height: 30),
+              Text(
+                'تم إنشاء حسابك بنجاح',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: titleFontSize,
+                  fontFamily: 'noto',
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'سيتم تحويلك للصفحة الرئيسيه خلال ثوان',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: subtitleFontSize,
-                fontFamily: 'noto',
-                fontWeight: FontWeight.w800,
+              const SizedBox(height: 20),
+              Text(
+                'سيتم تحويلك للصفحة الرئيسيه خلال ثوان',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.7),
+                  fontSize: subtitleFontSize,
+                  fontFamily: 'noto',
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

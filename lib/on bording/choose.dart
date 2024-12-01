@@ -114,12 +114,12 @@ class _JoinUsState extends State<JoinUs> {
                   ),
                 ),
                 Positioned(
-                  left: 135,
+                  left: 70,
                   top: 275,
                   child: GestureDetector(
                     onTap: () => toggleCardSelection(1),
                     child: Container(
-                      width: 160,
+                      width: 280,
                       height: 240,
                       decoration: ShapeDecoration(
                         color: isSpecialistSelected
@@ -178,12 +178,12 @@ class _JoinUsState extends State<JoinUs> {
                   ),
                 ),
                 Positioned(
-                  left: 135,
+                  left: 70,
                   top: 528,
                   child: GestureDetector(
                     onTap: () => toggleCardSelection(2),
                     child: Container(
-                      width: 160,
+                      width: 280,
                       height: 240,
                       decoration: ShapeDecoration(
                         color:

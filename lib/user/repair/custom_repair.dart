@@ -1,4 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:sahelnahaa/user/repair/details/detailsView.dart';
+
+// Assume you have a DetailsView page
+class DetailsView extends StatelessWidget {
+  final String serviceName;
+  final String serviceImage;
+
+  const DetailsView(
+      {super.key, required this.serviceName, required this.serviceImage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(serviceName),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              serviceImage,
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Details for $serviceName',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class CustomRepair extends StatelessWidget {
   const CustomRepair({super.key});
@@ -34,14 +70,13 @@ class CustomRepair extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        double itemWidth =
-            constraints.maxWidth / 3 - 20; // 3 items per row with spacing
-        double itemHeight = itemWidth * 1.1; // Adjust height based on the width
+        double itemWidth = constraints.maxWidth / 3 - 20;
+        double itemHeight = itemWidth * 1.1;
 
         return ListView(
           children: [
             Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 10,
                 right: 20,
                 left: 20,
@@ -50,7 +85,7 @@ class CustomRepair extends StatelessWidget {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 5,
@@ -58,7 +93,15 @@ class CustomRepair extends StatelessWidget {
                 itemCount: gridItems.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // Navigate to DetailsView when card is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Detailsview(),
+                        ),
+                      );
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -85,8 +128,7 @@ class CustomRepair extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF1B2431),
                                 fontFamily: "noto",
-                                fontSize:
-                                    itemHeight * 0.1, // Responsive text size
+                                fontSize: itemHeight * 0.1,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -98,7 +140,7 @@ class CustomRepair extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
           ],

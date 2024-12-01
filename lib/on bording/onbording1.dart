@@ -22,14 +22,16 @@ class DoorHubOnboardingScreenState extends State<DoorHubOnboardingScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.kBackground,
         actions: [
-          SkipButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => JoinUs()),
-              );
-            },
-          ),
+          // Show the Skip button only if it's not the third page
+          if (_currentPageIndex != 2)
+            SkipButton(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => JoinUs()),
+                );
+              },
+            ),
           const SizedBox(width: 16),
         ],
       ),
@@ -52,26 +54,28 @@ class DoorHubOnboardingScreenState extends State<DoorHubOnboardingScreen> {
               },
             ),
           ),
-          SmoothPageIndicator(
-            controller: _pageController,
-            count: onboardingList.length,
-            effect: WormEffect(
-              dotHeight: 8,
-              dotWidth: 8,
-              dotColor: const Color(0xFF207768).withOpacity(0.2),
-              activeDotColor: const Color(0xFF207768),
+          // Show the dot indicator only if it's not the third page
+          if (_currentPageIndex != 2)
+            SmoothPageIndicator(
+              controller: _pageController,
+              count: onboardingList.length,
+              effect: WormEffect(
+                dotHeight: 8,
+                dotWidth: 8,
+                dotColor: const Color(0xFF207768).withOpacity(0.2),
+                activeDotColor: const Color(0xFF207768),
+              ),
+              onDotClicked: (index) {
+                setState(() {
+                  _currentPageIndex = index;
+                });
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                );
+              },
             ),
-            onDotClicked: (index) {
-              setState(() {
-                _currentPageIndex = index;
-              });
-              _pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-          ),
           const SizedBox(height: 35),
           (_currentPageIndex < onboardingList.length - 1)
               ? Container()
@@ -331,13 +335,13 @@ final onboardingList = [
     title: 'نملك جميع المتخصصين لمساعدتك',
   ),
   Onboarding(
-    description: 'كل العناوين و المعلومات المدخله ستحفظ في نظام الأمان',
+    description: 'كل العناوين و المعلومات المدخله ستحفظ بالكامل في سرية تامه ',
     image: AppAssets.kOnboardingSecond,
-    title: 'جميع بياناتك و معلوماتك في أمان وفق الشروط',
+    title: 'حافظ علي سريتك ,حدد موقعك',
   ),
   Onboarding(
-    description: 'يمكنك البحث عن منتجك بإستخدام الكاميرا',
+    description: 'عند التسجيل يمكن الاستفادة من جميع خدماتنا المتميزه ',
     image: AppAssets.kOnboardingThird,
-    title: 'تسوق منتجاتك بسهوله الآن مع خدمه الذكاء الاصطناعي ',
+    title: 'سجل معنا وابدأ مباشرةً',
   ),
 ];

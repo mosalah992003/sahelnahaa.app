@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahelnahaa/user/offers/offersview.dart';
 import 'package:sahelnahaa/user/repair/repair_view.dart';
 import 'package:sahelnahaa/user/tashteba/tashteba.dart';
 
@@ -31,6 +32,11 @@ class CustomText extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const Tashteba()),
+                  );
+                } else if (namee == 'العروض ') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Offersview()),
                   );
                 }
               },
