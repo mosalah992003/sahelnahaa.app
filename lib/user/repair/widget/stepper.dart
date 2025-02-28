@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class CustomStepper extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const CustomStepper(
       {required this.icon1,
       required this.icon2,
@@ -23,11 +25,11 @@ class CustomStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 25, left: 25),
+      padding: EdgeInsets.only(right: 5.9.w, left: 5.9.w),
       child: Column(
         children: [
-          const SizedBox(
-            height: 12,
+          SizedBox(
+            height: 1.5.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,56 +37,56 @@ class CustomStepper extends StatelessWidget {
               Icon(
                 IconsaxPlusBold.tick_circle,
                 color: icon3,
-                size: 35,
+                size: 4.2.h,
               ),
-              const SizedBox(
-                width: 8,
+              SizedBox(
+                width: 2.w,
               ),
               Container(
-                width: 90,
-                height: 6,
+                width: 23.w,
+                height: .8.h,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
                   color: cont2,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(53.85),
+                    borderRadius: BorderRadius.circular(6.h),
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 8,
+              SizedBox(
+                width: 2.w,
               ),
               Icon(
                 IconsaxPlusBold.tick_circle,
                 color: icon2,
-                size: 35,
+                size: 4.2.h,
               ),
-              const SizedBox(
-                width: 8,
+              SizedBox(
+                width: 2.w,
               ),
               Container(
-                width: 90,
-                height: 6,
+                width: 23.w,
+                height: .8.h,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
                   color: cont1,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(53.85),
+                    borderRadius: BorderRadius.circular(6.h),
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 8,
+              SizedBox(
+                width: 2.w,
               ),
               Icon(
                 IconsaxPlusBold.tick_circle,
                 color: icon1,
-                size: 35,
+                size: 4.2.h,
               ),
             ],
           ),
-          const SizedBox(
-            height: 14,
+          SizedBox(
+            height: 1.3.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,9 +95,9 @@ class CustomStepper extends StatelessWidget {
                 'التأكيد',
                 style: TextStyle(
                   color: text3,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontFamily: 'noto',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   height: 0.10,
                   letterSpacing: -0.42,
                 ),
@@ -104,9 +106,9 @@ class CustomStepper extends StatelessWidget {
                 'تحديد الموعد ',
                 style: TextStyle(
                   color: text2,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontFamily: 'noto',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   height: 0.10,
                   letterSpacing: -0.42,
                 ),
@@ -115,7 +117,7 @@ class CustomStepper extends StatelessWidget {
                 'المشكلة',
                 style: TextStyle(
                   color: text1,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w500,
                   height: 0.10,

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:sahelnahaa/user/order/orderview.dart';
-import 'package:sahelnahaa/user/profile/visa_container.dart';
+import 'package:sahelnahaa/user/profile/credit.dart';
+import 'package:sahelnahaa/user/profile/vodafonecash.dart';
 import 'package:sahelnahaa/user/repair/widget/button.dart';
-import 'package:sahelnahaa/user/repair/widget/kind_payment.dart';
 import 'package:sahelnahaa/user/repair/widget/order_details.dart';
 import 'package:sahelnahaa/user/repair/widget/stepper.dart';
-import 'package:sahelnahaa/user/repair/widget/visa_container.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Pay extends StatefulWidget {
   const Pay({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PayState createState() => _PayState();
 }
 
@@ -22,77 +23,54 @@ class _PayState extends State<Pay> {
   void _showSuccessDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent dialog from being dismissed
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        // Automatically navigate after 2 seconds
         Future.delayed(const Duration(seconds: 2), () {
-          // First, close the dialog
-          Navigator.of(context).pop();
-
-          // Then navigate to OrderView page
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) =>
-                const Orderview(), // Replace with your actual OrderView page
-          ));
+          if (mounted) {
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop();
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const Orderview()),
+            );
+          }
         });
 
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           child: Container(
-            width: 390,
-            height: 294,
+            width: 100.w,
+            height: 32.h,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32),
-              ),
+                  borderRadius: BorderRadius.circular(3.h)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 132,
-                  height: 132,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
+                SizedBox(
+                  width: 60.w,
+                  height: 10.h,
                   child: Image.asset(
-                    "assets/shop/Order-Delivered--Streamline-Barcelona.svg.png",
-                    width: 132,
-                    height: 132,
+                      "assets/shop/Order-Delivered--Streamline-Barcelona.svg.png"), // Ensure asset path is correct
+                ),
+                SizedBox(height: 3.h),
+                Text(
+                  'شكرا لك , حجزك تم بنجاح',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontFamily: 'noto',
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(height: 16),
-                const SizedBox(
-                  width: 200,
-                  child: Text(
-                    'شكرا لك , حجزك تم بنجاح',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'noto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                      letterSpacing: -0.60,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  child: const Icon(
-                    IconsaxPlusBold.tick_circle,
-                    color: Colors.green,
-                    size: 50,
-                  ),
-                ),
+                SizedBox(height: 3.h),
+                Icon(IconsaxPlusBold.tick_circle,
+                    color: Colors.green, size: 6.h),
               ],
             ),
           ),
@@ -106,154 +84,82 @@ class _PayState extends State<Pay> {
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 9.h,
         backgroundColor: const Color(0xff207768),
         automaticallyImplyLeading: false,
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(32.0),
-            bottomRight: Radius.circular(32.0),
+            bottomLeft: Radius.circular(4.h),
+            bottomRight: Radius.circular(4.h),
           ),
         ),
-        title: const Center(
+        title: Center(
           child: Text(
             'تأكيد الطلب',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 17.sp,
               fontFamily: 'noto',
               fontWeight: FontWeight.w600,
-              height: 0.6,
             ),
           ),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: ListView(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
+            SizedBox(height: 3.h),
+            Text(
               'طريقة الدفع',
               textAlign: TextAlign.right,
               style: TextStyle(
-                color: Color(0xFF20776B),
-                fontSize: 17,
+                color: const Color(0xFF20776B),
+                fontSize: 16.sp,
                 fontFamily: 'noto',
-                fontWeight: FontWeight.w500,
-                height: 0.07,
-                letterSpacing: -0.51,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(
-              height: 18,
-            ),
-            const KindPayment(),
-            const SizedBox(
-              height: 18,
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 213),
-                Container(
-                  width: 25,
-                  height: 25,
-                  decoration: ShapeDecoration(
-                    color: Colors.lightBlue.withOpacity(0.7),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Icon(
-                    IconsaxPlusLinear.add,
-                    color: Colors.white,
-                  ),
+            SizedBox(height: 3.h),
+            const Credit(),
+            SizedBox(height: 3.h),
+            const VodafoneCash(),
+            SizedBox(height: 3.h),
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.5.h),
+                decoration: ShapeDecoration(
+                  color: const Color(0x7FDEE0E4),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(1.h)),
                 ),
-                const SizedBox(width: 10),
-                const Text(
-                  'أضافه طريقه اخرى ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF606060),
-                    fontSize: 14,
-                    fontFamily: 'noto',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: 390,
-              height: 62,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: const Color(0x7FDEE0E4),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 278,
-                    child: Text(
-                      'يرجى العلم انه لن تتم محاسبتك قبل قبل إتمام المهمة من جانب الفني ',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: Color(0xFF383838),
-                        fontSize: 12,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: -0.36,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'يرجى العلم انه لن تتم محاسبتك قبل قبل إتمام المهمة من جانب الفني ',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: const Color(0xFF383838),
+                          fontSize: 14.sp,
+                          fontFamily: 'noto',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Container(
-                    width: 20,
-                    height: 20,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(),
-                    child: const Icon(
-                      Icons.info,
-                      color: Color(0xff207768),
-                      size: 22,
-                    ),
-                  ),
-                ],
+                    const SizedBox(width: 12),
+                    Icon(Icons.info,
+                        color: const Color(0xff207768), size: 2.5.h),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(
-              height: 28,
-            ),
-            const Text(
-              'تفاصيل الطلب',
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                color: Color(0xFF20776B),
-                fontSize: 17,
-                fontFamily: 'noto',
-                fontWeight: FontWeight.w500,
-                height: 0.07,
-                letterSpacing: -0.51,
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
+            SizedBox(height: 3.h),
             const OrderDetails(),
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 3.h),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -262,29 +168,25 @@ class _PayState extends State<Pay> {
                 });
                 _showSuccessDialog();
               },
-              child: const Button(
-                name: 'تأكيد',
-              ),
+              child: const Button(name: 'تأكيد'),
             ),
-            const SizedBox(
-              height: 30,
-            ),
+            SizedBox(height: 4.h),
           ],
         ),
       ),
       bottomNavigationBar: Container(
         color: Colors.white,
-        height: 95,
+        height: 10.h,
         alignment: Alignment.center,
-        child: CustomStepper(
-          cont1: const Color(0xFF207768),
-          cont2: const Color(0xFF207768),
-          icon1: const Color(0xff207768),
-          icon2: const Color(0xFF207768),
-          icon3: icon3Color,
-          text3: text3Color,
-          text2: const Color(0xFF207768),
-          text1: const Color(0xff207768),
+        child: const CustomStepper(
+          icon1: Color(0xFF207768),
+          icon2: Color(0xFF207768),
+          icon3: Color(0xFF207768),
+          text1: Color(0xFF207768),
+          text2: Color(0xFF207768),
+          text3: Color(0xFF207768),
+          cont1: Color(0xFF207768),
+          cont2: Color(0xFF207768),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:sahelnahaa/user/tashteba/arrow.dart';
 import 'package:sahelnahaa/user/tashteba/custom_tashteba.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 // List of images to cycle through
 final List<String> tashtebaPagesImages = [
@@ -10,13 +11,14 @@ final List<String> tashtebaPagesImages = [
   "assets/shop/card (2).png",
   'assets/shop/Card (3).png',
   'assets/cards/card (4).png',
-  'assets/shop/card (5).png',
+  'assets/images/card5.png',
 ];
 
 class Tashteba extends StatefulWidget {
   const Tashteba({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TashtebaState createState() => _TashtebaState();
 }
 
@@ -57,58 +59,64 @@ class _TashtebaState extends State<Tashteba> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 10.h,
         backgroundColor: const Color(0xff207768),
         automaticallyImplyLeading: false,
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(32.0),
-            bottomRight: Radius.circular(32.0),
+            bottomLeft: Radius.circular(3.h),
+            bottomRight: Radius.circular(3.h),
           ),
         ),
         title: Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 15),
+          padding: EdgeInsets.only(left: 2.w, bottom: 1.h),
           child: Row(
             children: [
               Image.asset(
                 "assets/shop/logo.png",
-                width: 28,
-                height: 24,
+                width: 7.w,
+                height: 3.h,
               ),
-              const SizedBox(width: 5),
-              const Text(
+              SizedBox(width: 1.4.w),
+              Text(
                 'تشطيبة',
                 style: TextStyle(
-                  color: Color(0xFFECECEC),
-                  fontSize: 14,
+                  color: const Color(0xFFECECEC),
+                  fontSize: 14.sp,
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w500,
                   height: 0.11,
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7E7E7),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 7),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText:
-                            '                           ...إبحث عن تشطيبة',
-                        hintStyle: TextStyle(
-                          color: Color(0xFF676767),
-                          fontSize: 12,
-                          fontFamily: 'noto',
-                          fontWeight: FontWeight.w500,
+              SizedBox(width: 5.w),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Expanded(
+                  child: Container(
+                    height: 5.h,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE7E7E7),
+                      borderRadius: BorderRadius.circular(2.h),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 1.3.h,
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: ' إبحث عن تشطيبة',
+                          hintStyle: TextStyle(
+                            color: const Color(0xFF676767),
+                            fontSize: 13.sp,
+                            fontFamily: 'noto',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          prefixIcon:
+                              const Icon(IconsaxPlusLinear.search_normal),
+                          border: InputBorder.none,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        suffixIcon: Icon(IconsaxPlusLinear.search_normal),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
                   ),
@@ -120,15 +128,15 @@ class _TashtebaState extends State<Tashteba> {
       ),
       body: ListView(
         children: [
-          const SizedBox(height: 28),
+          SizedBox(height: 3.h),
           CustomTashteba(image: tashtebaPagesImages[currentPageIndex * 2]),
-          const SizedBox(height: 24),
+          SizedBox(height: 3.h),
           if (currentPageIndex * 2 + 1 < tashtebaPagesImages.length)
             CustomTashteba(
                 image: tashtebaPagesImages[currentPageIndex * 2 + 1]),
-          const SizedBox(height: 24),
+          SizedBox(height: 3.h),
           const Divider(indent: 30, endIndent: 30),
-          const SizedBox(height: 15),
+          SizedBox(height: 2.h),
           Row(
             children: [
               const SizedBox(width: 110),
@@ -145,19 +153,19 @@ class _TashtebaState extends State<Tashteba> {
                   children: [
                     TextSpan(
                       text: '0${currentPageIndex + 1}',
-                      style: const TextStyle(
-                        color: Color(0xFFA5A5A5),
-                        fontSize: 14,
+                      style: TextStyle(
+                        color: const Color(0xFFA5A5A5),
+                        fontSize: 15.sp,
                         fontFamily: 'noto',
                         fontWeight: FontWeight.w500,
                         height: 0.11,
                       ),
                     ),
-                    const TextSpan(
+                    TextSpan(
                       text: ' of ',
                       style: TextStyle(
-                        color: Color(0xFF999999),
-                        fontSize: 14,
+                        color: const Color(0xFF999999),
+                        fontSize: 15.sp,
                         fontFamily: 'noto',
                         fontWeight: FontWeight.w500,
                         height: 0.11,
@@ -165,9 +173,9 @@ class _TashtebaState extends State<Tashteba> {
                     ),
                     TextSpan(
                       text: '0${(tashtebaPagesImages.length / 2).ceil()}',
-                      style: const TextStyle(
-                        color: Color(0xFF646262),
-                        fontSize: 14,
+                      style: TextStyle(
+                        color: const Color(0xFF646262),
+                        fontSize: 15.sp,
                         fontFamily: 'noto',
                         fontWeight: FontWeight.w500,
                         height: 0.11,
@@ -176,7 +184,7 @@ class _TashtebaState extends State<Tashteba> {
                   ],
                 ),
               ),
-              const SizedBox(width: 15),
+              SizedBox(width: 4.w),
               GestureDetector(
                 onTap: _goToNextPage,
                 child: Arrow(

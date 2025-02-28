@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:sahelnahaa/user/logIn/reset_password.dart'; // Import your ResetPassword page
+import 'package:sahelnahaa/user/logIn/reset_password.dart';
+import 'package:screen_go/extensions/responsive_nums.dart'; // Import your ResetPassword page
 
 class OtpTextField extends StatefulWidget {
   const OtpTextField({super.key});
@@ -25,19 +26,17 @@ class _OtpTextFieldState extends State<OtpTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-
     // Calculate dimensions based on screen width
-    final double pinWidth = screenWidth * 0.15; // 15% of screen width
-    final double pinHeight = pinWidth; // Maintain square shape
-    final double fontSize = pinWidth * 0.4; // Font size relative to pin width
+    final double pinWidth = 14.w; // 15% of screen width
+    final double pinHeight = 6.3.h; // Maintain square shape
+    final double fontSize = 20.sp; // Font size relative to pin width
 
     final defaultPinTheme = PinTheme(
       width: pinWidth,
       height: pinHeight,
       textStyle: TextStyle(fontSize: fontSize, color: Colors.black),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(1.h),
         border: Border.all(color: borderColor),
       ),
     );
@@ -58,7 +57,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
               onCompleted: (pin) {
                 debugPrint('onCompleted: $pin');
                 // Navigate to ResetPassword page
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const ResetPassword()),
@@ -71,23 +70,23 @@ class _OtpTextFieldState extends State<OtpTextField> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(bottom: 9),
-                    width: pinWidth * 0.4, // Adjust cursor width
+                    margin: EdgeInsets.only(bottom: 1.h),
+                    width: 6.w, // Adjust cursor width
                     height: 2,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ],
               ),
               focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(1.h),
                   border: Border.all(color: focusedBorderColor),
                 ),
               ),
               submittedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
                   color: fillColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(1.h),
                   border: Border.all(color: focusedBorderColor),
                 ),
               ),

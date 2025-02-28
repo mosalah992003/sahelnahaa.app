@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sahelnahaa/user/logIn/custom_otp.dart';
 import 'package:sahelnahaa/user/logIn/customotp.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class RegisterOtp extends StatelessWidget {
   const RegisterOtp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen dimensions
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: Container(
-        height: screenHeight,
-        decoration: BoxDecoration(
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -22,7 +18,7 @@ class RegisterOtp extends StatelessWidget {
               Color(0xFF215F56), // The specific color you requested
               Color(0xff207768), // Your original background color
             ],
-            stops: [0.1, 0.3], // Adjust the gradient stop to control height
+            stops: [0.1, 0.4], // Adjust the gradient stop to control height
           ),
         ),
         child: Center(
@@ -30,83 +26,77 @@ class RegisterOtp extends StatelessWidget {
             // Wrap Column with SingleChildScrollView
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.1, // 10% horizontal padding
-                vertical: screenHeight * 0.12, // 12% vertical padding
+                horizontal: 10.w, // 10% horizontal padding
+                vertical: 1.h, // 12% vertical padding
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'إدخل الرمز المرسل',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                       fontFamily: "noto",
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 3.h),
                   Image.asset(
                     "assets/images/Group 34163.png",
-                    width: screenWidth * 0.5, // Responsive width
-                    height: screenWidth * 0.5, // Responsive height
+                    width: 50.w, // Responsive width
+                    height: 24.h, // Responsive height
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
+                  SizedBox(height: 1.5.h),
+                  Text(
                     'تم إرسال الرمز إلى حسابك الجيميل',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                      color: Colors.white.withOpacity(0.7),
+                      fontSize: 15.sp,
                       fontFamily: 'noto',
                       fontWeight: FontWeight.w700,
                       height: 1.5,
                       letterSpacing: -0.41,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 4.h),
                   const OtpTextFieldd(),
-                  const SizedBox(height: 15),
-                  Container(
-                    width: screenWidth * 0.6, // Responsive width
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'لم يتم إرسال الرمز؟',
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
-                                  fontSize: 12,
-                                  fontFamily: 'noto',
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.5,
-                                  letterSpacing: -0.41,
-                                ),
+                  SizedBox(height: 3.h),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'لم يتم إرسال الرمز؟',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.7),
+                                fontSize: 13.sp,
+                                fontFamily: 'noto',
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -0.41,
                               ),
-                              const TextSpan(
-                                text: ' إعادة إرسال الرمز',
-                                style: TextStyle(
-                                  color: Color(0xFFF2A941),
-                                  fontSize: 14,
-                                  fontFamily: 'noto',
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.5,
-                                  letterSpacing: -0.41,
-                                ),
+                            ),
+                            TextSpan(
+                              text: ' إعادة إرسال الرمز',
+                              style: TextStyle(
+                                color: const Color(0xFFF2A941),
+                                fontSize: 14.sp,
+                                fontFamily: 'noto',
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: -0.41,
                               ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ],
               ),

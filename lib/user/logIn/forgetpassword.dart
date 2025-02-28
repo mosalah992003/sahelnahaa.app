@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sahelnahaa/user/logIn/otp.dart'; // Import the OTP page
 import 'package:sahelnahaa/user/logIn/textfieldregister.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
@@ -8,13 +9,11 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get screen dimensions
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
-        height: screenHeight,
-        decoration: BoxDecoration(
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -22,38 +21,69 @@ class ForgetPassword extends StatelessWidget {
               Color(0xFF215F56), // The specific color you requested
               Color(0xff207768), // Your original background color
             ],
-            stops: [0.1, 0.3], // Adjust the gradient stop to control height
+            stops: [0.1, 0.4], // Adjust the gradient stop to control height
           ),
         ),
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.1, // 10% horizontal padding
-                vertical: screenHeight * 0.09, // 10% vertical padding
+                horizontal: 5.w, // 10% horizontal padding
+                vertical: 1.h, // 10% vertical padding
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    'إعادة تعيين كلمة المرور',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      fontFamily: "noto",
+                  RichText(
+                    text: TextSpan(
+                      text: 'إعادة ',
+                      style: TextStyle(
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        fontFamily: "noto",
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'تعيين ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "noto",
+                            fontWeight: FontWeight.w800,
+                            fontSize: 22.sp,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'كلمة ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "noto",
+                            fontWeight: FontWeight.w800,
+                            fontSize: 22.sp,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'المرور',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "noto",
+                            fontWeight: FontWeight.w800,
+                            fontSize: 22.sp,
+                          ),
+                        ),
+                      ],
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 5.h),
                   Image.asset(
                     "assets/images/Group.png",
-                    width: screenWidth * 0.35, // 35% of screen width
-                    height: screenHeight * 0.2, // 20% of screen height
+                    width: 40.w, // 35% of screen width
+                    height: 20.h, // 20% of screen height
                   ),
-                  const SizedBox(height: 50),
+                  SizedBox(height: 6.h),
                   const Textfieldregister(name: 'الإيميل'),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 3.h),
                   GestureDetector(
                     onTap: () {
                       // Navigate to the OTP page when the button is pressed
@@ -64,13 +94,12 @@ class ForgetPassword extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      width: screenWidth * 0.95, // 95% of screen width
-                      height: screenHeight * 0.06, // 6% of screen height
-                      padding: const EdgeInsets.all(8),
+                      width: double.infinity, // 95% of screen width
+                      height: 6.h, // 6% of screen height
                       decoration: ShapeDecoration(
                         color: const Color(0xffF2A941),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(1.h),
                         ),
                       ),
                       child: Row(
@@ -78,11 +107,11 @@ class ForgetPassword extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             'إرسال الرمز',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 16.sp,
                               fontFamily: 'noto',
                               fontWeight: FontWeight.w500,
                               height: 1, // Use height of 1 for better scaling

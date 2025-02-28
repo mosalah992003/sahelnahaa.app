@@ -24,12 +24,12 @@ class TimelineCalendar extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.withOpacity(0.6)),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
         ),
         dayStructure: DayStructure.dayStrDayNum,
         activeDayStyle: DayStyle(
-          dayNumStyle: TextStyle(
+          dayNumStyle: const TextStyle(
             color: Colors.white, // Only the color is different
             fontFamily: "noto",
             fontSize: 20,
@@ -37,8 +37,8 @@ class TimelineCalendar extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            gradient: LinearGradient(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [

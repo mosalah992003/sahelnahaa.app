@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sahelnahaa/user/repair/details/detailsView.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 // Assume you have a DetailsView page
 class DetailsView extends StatelessWidget {
@@ -21,13 +22,14 @@ class DetailsView extends StatelessWidget {
           children: [
             Image.asset(
               serviceImage,
-              width: 200,
-              height: 200,
+              width: 11.w,
+              height: 5.h,
+              fit: BoxFit.contain,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: .7.h),
             Text(
               'Details for $serviceName',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -53,7 +55,6 @@ class CustomRepair extends StatelessWidget {
       {'image': 'assets/cards/Group 34178.png', 'text': 'دش و تليفزيون'},
       {'image': 'assets/cards/Group 34208.png', 'text': 'صيانة ذكية'},
       {'image': 'assets/cards/Group.png', 'text': 'بوتوجاز'},
-      {'image': 'assets/cards/Sewing Machine.png', 'text': 'خياطة ملابس'},
       {'image': 'assets/cards/Group 34202.png', 'text': 'غسالات'},
       {'image': 'assets/cards/Group 34206.png', 'text': 'مبيض محارة'},
       {'image': 'assets/cards/Group 34205.png', 'text': 'مكواة'},
@@ -70,25 +71,23 @@ class CustomRepair extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        double itemWidth = constraints.maxWidth / 3 - 20;
-        double itemHeight = itemWidth * 1.1;
-
         return ListView(
           children: [
             Container(
-              padding: const EdgeInsets.only(
-                top: 10,
-                right: 20,
-                left: 20,
-                bottom: 10,
+              padding: EdgeInsets.only(
+                top: 3.h,
+                right: 5.w,
+                left: 5.w,
+                bottom: 5.h,
               ),
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 1.w,
+                  mainAxisSpacing: .4.h,
+                  childAspectRatio: 0.13.h,
                 ),
                 itemCount: gridItems.length,
                 itemBuilder: (context, index) {
@@ -98,37 +97,39 @@ class CustomRepair extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Detailsview(),
+                          builder: (context) => Detailsview(
+                            selectedService: gridItems[index]['text']!,
+                          ),
                         ),
                       );
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(2.h),
                       ),
                       child: Card(
-                        elevation: 5,
+                        elevation: 2,
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(1.h),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
                               gridItems[index]['image']!,
-                              width: itemWidth * 0.4,
-                              height: itemHeight * 0.3,
-                              fit: BoxFit.fill,
+                              width: 10.w, // Reduced size
+                              height: 5.h,
+                              fit: BoxFit.contain,
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 1.h),
                             Text(
                               gridItems[index]['text']!,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF1B2431),
                                 fontFamily: "noto",
-                                fontSize: itemHeight * 0.1,
+                                fontSize: 13.5.sp,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -140,8 +141,8 @@ class CustomRepair extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: 3.h,
             ),
           ],
         );

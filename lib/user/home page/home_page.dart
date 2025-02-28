@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -10,26 +12,34 @@ import 'package:sahelnahaa/user/home%20page/custom_drawer.dart';
 import 'package:sahelnahaa/user/home%20page/custom_review.dart';
 import 'package:sahelnahaa/user/home%20page/custom_tashteb.dart';
 import 'package:sahelnahaa/user/home%20page/custom_text.dart';
-import 'package:sahelnahaa/user/notification/notification.dart';
+import 'package:sahelnahaa/user/notification/notification2.dart';
 import 'package:sahelnahaa/user/order/orderview.dart';
 import 'package:sahelnahaa/user/repair/repair_view.dart';
 import 'package:sahelnahaa/user/market/market_view.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
+  // ignore: use_super_parameters
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController pageController = PageController();
+  String userName = 'محمد'; // Default name
+  String userAddress = 'شارع احمد كامل الدقهليه'; // Default address
+  String? _profileImagePath; // To store the selected image path
   int _selectedIndex = 3;
 
   @override
   void initState() {
     super.initState();
+    _loadUserData();
   }
 
   void _onItemTapped(int index) {
@@ -63,55 +73,59 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('name') ?? 'محمد';
+      userAddress = prefs.getString('address') ?? 'شارع احمد كامل الدقهليه';
+      _profileImagePath =
+          prefs.getString('profile_image'); // Load saved image path
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
-    final isLandscape = size.width > size.height;
-
-    double appBarHeight = height * 0.1;
-    double iconSize = width * 0.08;
-    double textSize = isLandscape ? 12 : 15;
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         backgroundColor: const Color(0xff207768),
         automaticallyImplyLeading: false,
-        toolbarHeight: appBarHeight,
-        shape: const RoundedRectangleBorder(
+        toolbarHeight: 10.h,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
+            bottom: Radius.circular(5.h),
           ),
         ),
         shadowColor: const Color(0x3F000000),
         leading: Row(
           children: [
-            const SizedBox(width: 20),
+            SizedBox(width: 5.w),
             GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const NotificationPage();
+                  return const Notification2();
                 }));
               },
               child: Container(
-                width: iconSize,
-                height: iconSize,
+                width: 8.w,
+                height: 3.8.h,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     side:
-                        const BorderSide(width: 0.50, color: Color(0xFFD8CCCC)),
-                    borderRadius: BorderRadius.circular(8),
+                        BorderSide(width: .1.w, color: const Color(0xFFD8CCCC)),
+                    borderRadius: BorderRadius.circular(1.h),
                   ),
                 ),
-                child: const Icon(IconsaxPlusLinear.notification),
+                child: Icon(
+                  IconsaxPlusLinear.notification,
+                  size: 2.8.h,
+                ),
               ),
             ),
-            const SizedBox(width: 5),
+            SizedBox(width: 1.5.w),
             GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -119,124 +133,133 @@ class _HomePageState extends State<HomePage> {
                 }));
               },
               child: Container(
-                width: iconSize,
-                height: iconSize,
+                width: 8.w,
+                height: 3.8.h,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     side:
-                        const BorderSide(width: 0.50, color: Color(0xFFD8CCCC)),
-                    borderRadius: BorderRadius.circular(8),
+                        BorderSide(width: .1.h, color: const Color(0xFFD8CCCC)),
+                    borderRadius: BorderRadius.circular(1.h),
                   ),
                 ),
-                child: const Icon(IconsaxPlusLinear.shopping_cart),
+                child: Icon(
+                  IconsaxPlusLinear.shopping_cart,
+                  size: 2.8.h,
+                ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: height * 0.03, left: width * .43),
-                  child: Text(
-                    'أهلا, محمد',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: textSize,
-                      fontFamily: 'noto',
-                      height: 1.2,
-                      letterSpacing: -0.39,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: width * 0.3),
-                  child: const Text(
-                    'شارع احمد كامل الدقهليه',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFCDCDD3),
-                      fontSize: 11,
-                      fontFamily: 'noto',
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -0.30,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
-        leadingWidth: width * 0.85,
+        leadingWidth: double.infinity,
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: width * 0.05),
-            child: InkWell(
-              onTap: () {
-                _scaffoldKey.currentState?.openEndDrawer();
-              },
-              child: Image.asset(
-                "assets/images/profile.png",
-                width: iconSize * 1.5,
-                height: iconSize * 1.5,
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.7.h, right: 1.4.w),
+                    child: Text(
+                      'أهلا, $userName',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 15.8.sp,
+                        fontFamily: 'noto',
+                        height: 1.2,
+                        letterSpacing: -0.39,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 1.h),
+                  Padding(
+                    padding: EdgeInsets.only(right: 1.4.w),
+                    child: Text(
+                      userAddress,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: const Color(0xFFCDCDD3),
+                        fontSize: 13.sp,
+                        fontFamily: 'noto',
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.30,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
+              Padding(
+                padding: EdgeInsets.only(right: 5.w),
+                child: InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState?.openEndDrawer();
+                  },
+                  child: CircleAvatar(
+                    radius: 3.h,
+                    backgroundImage: _profileImagePath != null
+                        ? FileImage(File(_profileImagePath!)) as ImageProvider
+                        : const AssetImage("assets/images/default_profile.png"),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
       endDrawer: const CustomDrawer(),
       body: ListView(
         children: [
           SizedBox(
-            height: 16,
+            height: 2.3.h,
           ),
-          CustomText(
+          const CustomText(
             name: 'عرض الكل',
             namee: 'العروض ',
           ),
           Padding(
-            padding: EdgeInsets.only(
-                top: 8, right: width * 0.05, left: width * 0.05),
+            padding: EdgeInsets.only(top: 1.3.h, right: 5.w, left: 5.w),
             child: const PromoCard(),
           ),
-          SizedBox(height: height * 0.035),
+          SizedBox(height: 2.h),
           const CustomText(name: 'عرض الكل', namee: 'الخدمات'),
           const CustomGridView(),
           const CustomText(name: 'عرض الكل', namee: 'تشطيبة'),
-          const SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                CustomTashteb(
-                  photo: 'assets/cards/Select Inverse 1.png',
-                  price: '4200',
-                  tittle: 'تركيب جميع أدوات السباكة ',
-                ),
-                CustomTashteb(
-                  photo: 'assets/cards/11 1.png',
-                  price: '2400',
-                  tittle: 'تركيب ستائر وديكور 4 غرف ',
-                ),
-                CustomTashteb(
-                  photo: "assets/cards/22 1.png",
-                  price: "1500",
-                  tittle: 'دهان ونقاشة كاملة و السعر للغرفة ',
-                ),
-                CustomTashteb(
-                  photo: "assets/cards/44.png",
-                  price: "3200",
-                  tittle: 'تركيب سيراميك كامل السعر للغرفة ',
-                ),
-                CustomTashteb(
-                  photo: "assets/cards/55 1.png",
-                  price: "3200",
-                  tittle: 'تركيب كهرباء كاملة السعر للغرفه  ',
-                ),
-              ],
+          Padding(
+            padding: EdgeInsets.only(right: 5.w),
+            child: const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  CustomTashteb(
+                    photo: 'assets/cards/Select Inverse 1.png',
+                    price: '4200',
+                    tittle: 'تركيب جميع أدوات السباكة ',
+                  ),
+                  CustomTashteb(
+                    photo: 'assets/cards/11 1.png',
+                    price: '2400',
+                    tittle: 'تركيب ستائر وديكور 4 غرف ',
+                  ),
+                  CustomTashteb(
+                    photo: "assets/cards/22 1.png",
+                    price: "1500",
+                    tittle: 'دهان ونقاشة كاملة و السعر للغرفة ',
+                  ),
+                  CustomTashteb(
+                    photo: "assets/cards/44.png",
+                    price: "3200",
+                    tittle: 'تركيب سيراميك كامل السعر للغرفة ',
+                  ),
+                  CustomTashteb(
+                    photo: "assets/cards/55 1.png",
+                    price: "3200",
+                    tittle: 'تركيب كهرباء كاملة السعر للغرفه  ',
+                  ),
+                ],
+              ),
             ),
           ),
           const CustomReview(),
@@ -248,20 +271,21 @@ class _HomePageState extends State<HomePage> {
             return const ChatScreen();
           }));
         },
+        // ignore: sort_child_properties_last
         child: Image.asset(
           "assets/shop/Robot.png",
-          width: 26,
-          height: 26,
+          width: 10.w,
+          height: 3.5.h,
         ),
-        backgroundColor: Color(0xff207768),
+        backgroundColor: const Color(0xff207768),
         elevation: 10,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       bottomNavigationBar: BottomAppBar(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
-        height: 72,
+        padding: EdgeInsets.symmetric(horizontal: 6.3.w),
+        height: 7.9.h,
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
@@ -275,7 +299,7 @@ class _HomePageState extends State<HomePage> {
               label: 'طلباتي',
               index: 0,
             ),
-            SizedBox(width: 50),
+            SizedBox(width: 13.w),
             _buildBottomNavItem(
               icon: _selectedIndex == 1
                   ? FontAwesomeIcons.wrench
@@ -291,7 +315,7 @@ class _HomePageState extends State<HomePage> {
               label: 'السوق',
               index: 2,
             ),
-            SizedBox(width: 50),
+            SizedBox(width: 13.w),
             _buildBottomNavItem(
               icon: _selectedIndex == 3
                   ? IconsaxPlusBold.home_1
@@ -320,18 +344,19 @@ class _HomePageState extends State<HomePage> {
         children: [
           Icon(
             icon,
-            color:
-                _selectedIndex == index ? Color(0xff207768) : Color(0xffA3A3A3),
-            size: 27,
+            color: _selectedIndex == index
+                ? const Color(0xff207768)
+                : const Color(0xffA3A3A3),
+            size: 3.h,
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: .5.h),
           Text(
             label,
             style: TextStyle(
               color: _selectedIndex == index
-                  ? Color(0xff207768)
-                  : Color(0xffA3A3A3),
-              fontSize: 11,
+                  ? const Color(0xff207768)
+                  : const Color(0xffA3A3A3),
+              fontSize: 13.sp,
               fontFamily: 'noto',
               fontWeight: FontWeight.w700,
               letterSpacing: -0.30,

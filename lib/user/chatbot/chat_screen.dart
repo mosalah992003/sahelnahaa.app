@@ -38,8 +38,8 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Center(
-          child: const Text(
+        title: const Center(
+          child: Text(
             "أسالنى ",
             style: TextStyle(
               color: Color(0xFF1B2431),
@@ -50,12 +50,13 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
+      // ignore: avoid_unnecessary_containers
       body: Container(
         child: Padding(
           padding: const EdgeInsets.all(16.0), // Padding around the chat
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 150,
               ),
               // Display the image and text if showImage is true
@@ -93,8 +94,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildUi() {
     return DashChat(
-      messageOptions: MessageOptions(
-        currentUserContainerColor: const Color(0xff207768),
+      messageOptions: const MessageOptions(
+        currentUserContainerColor: Color(0xff207768),
         messagePadding: EdgeInsets.all(10), // Padding within message bubbles
       ),
       inputOptions: InputOptions(
@@ -103,9 +104,9 @@ class _ChatScreenState extends State<ChatScreen> {
             onPressed: () {
               sendMediaMessage();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.image,
-              color: const Color(0xff207768),
+              color: Color(0xff207768),
             ),
           )
         ],
@@ -131,8 +132,10 @@ class _ChatScreenState extends State<ChatScreen> {
         ];
       }
       gemini.streamGenerateContent(question, images: images).listen(
+        // ignore: non_constant_identifier_names
         (Event) {
           ChatMessage? lastMessage = messages.firstOrNull;
+          // ignore: unrelated_type_equality_checks
           if (lastMessage != null && lastMessage == gemimiUser) {
             lastMessage = messages.removeAt(0);
             String response = Event.content?.parts?.fold(
@@ -158,6 +161,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       );
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }

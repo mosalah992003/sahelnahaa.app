@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sahelnahaa/on%20bording/assests.dart';
 import 'package:sahelnahaa/on%20bording/choose.dart';
 import 'package:sahelnahaa/on%20bording/color.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class DoorHubOnboardingScreen extends StatefulWidget {
+  // ignore: use_super_parameters
   const DoorHubOnboardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class DoorHubOnboardingScreenState extends State<DoorHubOnboardingScreen> {
                 );
               },
             ),
-          const SizedBox(width: 16),
+          SizedBox(width: 5.w),
         ],
       ),
       body: Column(
@@ -60,8 +62,8 @@ class DoorHubOnboardingScreenState extends State<DoorHubOnboardingScreen> {
               controller: _pageController,
               count: onboardingList.length,
               effect: WormEffect(
-                dotHeight: 8,
-                dotWidth: 8,
+                dotHeight: 1.h,
+                dotWidth: 2.w,
                 dotColor: const Color(0xFF207768).withOpacity(0.2),
                 activeDotColor: const Color(0xFF207768),
               ),
@@ -76,19 +78,19 @@ class DoorHubOnboardingScreenState extends State<DoorHubOnboardingScreen> {
                 );
               },
             ),
-          const SizedBox(height: 35),
+          SizedBox(height: 5.h),
           (_currentPageIndex < onboardingList.length - 1)
               ? Container()
               : PrimaryButton(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => JoinUs()),
                     );
                   },
                   text: 'ابدأ الآن',
                 ),
-          const SizedBox(height: 40),
+          SizedBox(height: 5.h),
         ],
       ),
     );
@@ -99,6 +101,7 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
 
+  // ignore: use_super_parameters
   const PrimaryButton({
     required this.onTap,
     required this.text,
@@ -107,27 +110,28 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width * 0.9;
-    final double height = 50.0;
-    final double borderRadius = 10.0;
-
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: height,
-        alignment: Alignment.center,
-        width: width,
-        decoration: BoxDecoration(
-          color: AppColors.kPrimary,
-          borderRadius: BorderRadius.circular(borderRadius),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 5.w,
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 15,
-            fontFamily: "noto",
+        child: Container(
+          height: 6.h,
+          alignment: Alignment.center,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.kPrimary,
+            borderRadius: BorderRadius.circular(1.h),
+          ),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 16.sp,
+              fontFamily: "noto",
+            ),
           ),
         ),
       ),
@@ -139,6 +143,7 @@ class OnboardingCard extends StatefulWidget {
   final bool playAnimation;
   final Onboarding onboarding;
 
+  // ignore: use_super_parameters
   const OnboardingCard({
     required this.playAnimation,
     Key? key,
@@ -224,52 +229,50 @@ class _OnboardingCardState extends State<OnboardingCard>
 
   @override
   Widget build(BuildContext context) {
-    final double imageWidth = MediaQuery.of(context).size.width * 0.85;
-    final double imageHeight = 450;
-
     return SlideTransition(
       position: _slideAnimation,
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
               children: [
-                const SizedBox(height: 40),
+                SizedBox(height: 5.h),
                 Text(
                   widget.onboarding.title,
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: 19.4.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontFamily: "noto",
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 2.h),
                 Text(
                   widget.onboarding.description,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w400,
                     color: Colors.black,
                     fontFamily: "noto",
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 2.h),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10, left: 23),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
+                // ignore: sized_box_for_whitespace
                 child: Container(
-                  width: imageWidth,
-                  height: imageHeight,
+                  width: 90.w,
+                  height: 50.h,
                   child: Image.asset(
                     widget.onboarding.image,
                     fit: BoxFit.contain,
@@ -287,6 +290,7 @@ class _OnboardingCardState extends State<OnboardingCard>
 class SkipButton extends StatelessWidget {
   final VoidCallback onTap;
 
+  // ignore: use_super_parameters
   const SkipButton({required this.onTap, Key? key}) : super(key: key);
 
   @override
@@ -294,19 +298,22 @@ class SkipButton extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: AppColors.kAccent4,
-          ),
-          child: const Text(
-            'تخطي',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-              fontFamily: "noto",
+        child: Padding(
+          padding: EdgeInsets.only(top: 1.h),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.h),
+              color: AppColors.kAccent4,
+            ),
+            child: Text(
+              'تخطي',
+              style: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+                fontFamily: "noto",
+              ),
             ),
           ),
         ),

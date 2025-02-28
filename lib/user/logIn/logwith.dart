@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Logwith extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const Logwith({required this.picture});
   final String picture;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     // Define container dimensions based on screen size
-    final containerWidth = screenWidth * 0.12;
-    final containerHeight = screenHeight * 0.054;
-    final paddingHorizontal = screenWidth * 0.02;
 
     return Container(
-      width: containerWidth,
-      height: containerHeight,
-      padding: EdgeInsets.symmetric(horizontal: paddingHorizontal, vertical: 8),
+      width: 11.4.w,
+      height: 5.h,
+      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(2.h),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Center(
         child: Image.asset(
           picture,
-          width: containerWidth * 0.5, // Scale image to fit within container
-          height: containerHeight * 0.5,
+          width: 7.w, // Scale image to fit within container
+          height: 4.h,
           fit: BoxFit.contain,
         ),
       ),

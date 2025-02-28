@@ -1,177 +1,74 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:sahelnahaa/user/repair/widget/customCheckBox.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Kindrepaire extends StatelessWidget {
   const Kindrepaire({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 390,
-      height: 396,
-      decoration: ShapeDecoration(
-        color: const Color(0xFFE7E7E7),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-      ),
-      child: const Column(
-        children: [
-          SizedBox(
-            height: 30,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Container(
+        width: double.infinity,
+        height: 40.h,
+        decoration: ShapeDecoration(
+          color: const Color(0xFFE7E7E7),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(3.h),
           ),
-          Row(
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: ListView(
             children: [
-              SizedBox(
-                width: 280,
-              ),
+              SizedBox(height: 2.h),
               Text(
                 'نوع المهمة',
                 style: TextStyle(
-                  color: Color(0xFF20776B),
-                  fontSize: 16,
+                  color: const Color(0xFF20776B),
+                  fontSize: 16.sp,
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w700,
-                  height: 0.09,
                   letterSpacing: -0.48,
                 ),
               ),
+              SizedBox(height: 1.h),
+              _buildRepairOption('تغيير خلاط مطبخ أو حمام'),
+              _buildRepairOption('تسريب مياه من الحوض'),
+              _buildRepairOption('أعطال سخان'),
+              _buildRepairOption('تغيير دش و تصليح بانيو'),
+              _buildRepairOption('فك وتغيير وتصليح فلتر المياه'),
+              _buildRepairOption('أخرى'),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 159,
-              ),
-              Text(
-                'تغيير خلاط مطبخ أو حمام',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 175,
-              ),
-              Text(
-                'تسريب مياه من الحوض',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 240,
-              ),
-              Text(
-                'أعطال سخان',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 167,
-              ),
-              Text(
-                'تغيير دش و تصليح بانيو',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 130,
-              ),
-              Text(
-                'فك وتغيير وتصليح فلتر المياه',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 287,
-              ),
-              Text(
-                'أخرى',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Color(0xFF353535),
-                  fontSize: 14,
-                  fontFamily: 'noto',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              CustomCheckbox(),
-            ],
-          )
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildRepairOption(String text) {
+    return Row(
+      mainAxisAlignment:
+          MainAxisAlignment.end, // Align checkbox and text to the right
+      children: [
+        const CustomCheckbox(), // Checkbox first (on the right)
+        Expanded(
+          // Ensure text does not overflow
+          child: Text(
+            text,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              color: const Color(0xFF353535),
+              fontSize: 14.3.sp,
+              fontFamily: 'noto',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

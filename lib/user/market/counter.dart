@@ -10,7 +10,7 @@ class CustomCounter extends StatefulWidget {
 }
 
 class _CustomCounterState extends State<CustomCounter> {
-  int _counter = 0;
+  int _counter = 1;
   bool _isAddIconPressed = false;
   bool _isRemoveIconPressed = false;
 

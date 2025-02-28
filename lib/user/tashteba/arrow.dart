@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 
 class Arrow extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const Arrow({required this.color, required this.icon});
   final Color color;
   final Icon icon;
@@ -15,7 +15,7 @@ class Arrow extends StatelessWidget {
       decoration: ShapeDecoration(
         color: color,
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: Color(0xFF262626)),
+          side: const BorderSide(width: 1, color: Color(0xFF262626)),
           borderRadius: BorderRadius.circular(69),
         ),
       ),

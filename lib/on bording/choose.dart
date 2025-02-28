@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sahelnahaa/user/logIn/log_in.dart'; // Ensure the LoginScreen is imported
+import 'package:sahelnahaa/user/logIn/log_in.dart';
+import 'package:screen_go/extensions/responsive_nums.dart'; // Ensure the LoginScreen is imported
 
+// ignore: use_key_in_widget_constructors
 class JoinUs extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _JoinUsState createState() => _JoinUsState();
 }
 
@@ -28,7 +31,7 @@ class _JoinUsState extends State<JoinUs> {
       Navigator.of(context).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              LoginScreen(),
+              const LoginScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = 0.0;
             const end = 1.0;
@@ -50,8 +53,17 @@ class _JoinUsState extends State<JoinUs> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('يرجى اختيار نوع الحساب أولاً!'),
-          duration: Duration(seconds: 2),
+          backgroundColor: const Color(0xff077068),
+          content: Center(
+            child: Text(
+              'يرجى اختيار نوع الحساب أولاً!',
+              style: TextStyle(
+                  fontFamily: "noto",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.sp),
+            ),
+          ),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -64,75 +76,64 @@ class _JoinUsState extends State<JoinUs> {
         child: Column(
           children: [
             Container(
-              width: 430,
-              height: 932,
+              width: double.infinity,
+              height: 150.h,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
                 color: const Color(0xFFF9F9F9),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(3.h),
                 ),
               ),
               child: Stack(children: [
                 Positioned(
-                  left: -22,
-                  top: -150,
+                  left: -8.w,
+                  right: -8.w,
+                  top: -20.h,
                   child: Container(
-                    width: 474,
-                    height: 413,
+                    width: double.infinity,
+                    height: 48.h,
                     decoration: const ShapeDecoration(
                       color: Color(0xFF247A6E),
                       shape: OvalBorder(),
                     ),
                   ),
                 ),
-                const Positioned(
-                  left: 257,
-                  top: 669,
-                  child: Text.rich(
-                    TextSpan(),
+                Positioned(
+                  left: 10.w,
+                  right: 10.w,
+                  top: 11.h,
+                  child: Text(
+                    'انضم إلينا ک',
                     textAlign: TextAlign.center,
-                  ),
-                ),
-                const Positioned(
-                  left: 122,
-                  top: 117,
-                  child: SizedBox(
-                    width: 187,
-                    height: 31,
-                    child: Text(
-                      'انضم إلينا ک',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w700,
-                        height: 0.05,
-                      ),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.sp,
+                      fontFamily: 'noto',
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Positioned(
-                  left: 70,
-                  top: 275,
+                  left: 18.w,
+                  right: 18.w,
+                  top: 30.h,
                   child: GestureDetector(
                     onTap: () => toggleCardSelection(1),
                     child: Container(
-                      width: 280,
-                      height: 240,
+                      width: double.infinity,
                       decoration: ShapeDecoration(
                         color: isSpecialistSelected
-                            ? Color(0xFF207768)
+                            ? const Color(0xFF207768)
                             : Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26.26),
+                          borderRadius: BorderRadius.circular(3.h),
                         ),
                         shadows: const [
                           BoxShadow(
                             color: Color(0x3F000000),
-                            blurRadius: 4.38,
-                            offset: Offset(0, 4.38),
+                            blurRadius: 2,
+                            offset: Offset(0, 2),
                             spreadRadius: 0,
                           )
                         ],
@@ -143,18 +144,18 @@ class _JoinUsState extends State<JoinUs> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 10,
+                            height: 1.4.h,
                           ),
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              'متخصص',
+                              'فني',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: isSpecialistSelected
                                     ? Colors.white
                                     : Colors.black.withOpacity(0.7),
-                                fontSize: 21.88,
+                                fontSize: 17.sp,
                                 fontFamily: 'noto',
                                 fontWeight: FontWeight.w600,
                                 height: 0.9,
@@ -162,8 +163,8 @@ class _JoinUsState extends State<JoinUs> {
                             ),
                           ),
                           Container(
-                            width: 160.82,
-                            height: 210,
+                            width: 40.w,
+                            height: 25.h,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
@@ -178,24 +179,25 @@ class _JoinUsState extends State<JoinUs> {
                   ),
                 ),
                 Positioned(
-                  left: 70,
-                  top: 528,
+                  left: 18.w,
+                  right: 18.w,
+                  top: 60.h,
                   child: GestureDetector(
                     onTap: () => toggleCardSelection(2),
                     child: Container(
-                      width: 280,
-                      height: 240,
+                      width: double.infinity,
                       decoration: ShapeDecoration(
-                        color:
-                            isUserSelected ? Color(0xFF207768) : Colors.white,
+                        color: isUserSelected
+                            ? const Color(0xFF207768)
+                            : Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(3.h),
                         ),
                         shadows: const [
                           BoxShadow(
                             color: Color(0x3F000000),
-                            blurRadius: 4,
-                            offset: Offset(0, 4),
+                            blurRadius: 2,
+                            offset: Offset(0, 2),
                             spreadRadius: 0,
                           )
                         ],
@@ -206,7 +208,7 @@ class _JoinUsState extends State<JoinUs> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 10,
+                            height: 1.4.h,
                           ),
                           Text(
                             'مستخدم',
@@ -215,15 +217,15 @@ class _JoinUsState extends State<JoinUs> {
                               color: isUserSelected
                                   ? Colors.white
                                   : Colors.black.withOpacity(0.7),
-                              fontSize: 21,
+                              fontSize: 17.sp,
                               fontFamily: 'noto',
                               fontWeight: FontWeight.w600,
                               height: 0.9,
                             ),
                           ),
                           Container(
-                            width: 160,
-                            height: 210,
+                            width: 40.w,
+                            height: 25.h,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
@@ -238,39 +240,36 @@ class _JoinUsState extends State<JoinUs> {
                   ),
                 ),
                 Positioned(
-                  left: 20,
-                  top: 800,
+                  left: 5.w,
+                  right: 5.w,
+                  top: 91.h,
                   child: GestureDetector(
                     onTap: onProceed,
                     child: Container(
-                      width: 370,
-                      height: 50,
+                      width: double.infinity,
+                      height: 6.h,
                       padding: const EdgeInsets.all(8),
                       decoration: ShapeDecoration(
                         color: isSpecialistSelected || isUserSelected
-                            ? Color(0xFF207768)
+                            ? const Color(0xFF207768)
                             : Colors.grey, // Grey if no card is selected
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(1.h)),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 53,
-                            height: 14,
-                            child: Text(
-                              'تقدم',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: 'noto',
-                                fontWeight: FontWeight.w500,
-                                height: 0.35,
-                              ),
+                          Text(
+                            'تقدم',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontFamily: 'noto',
+                              fontWeight: FontWeight.bold,
+                              height: 0.35,
                             ),
                           ),
                         ],

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:sahelnahaa/user/profile/visa_container.dart';
+import 'package:sahelnahaa/user/offers/offersview.dart';
+import 'package:sahelnahaa/user/profile/credit.dart';
+import 'package:sahelnahaa/user/profile/vodafonecash.dart';
 import 'package:sahelnahaa/user/repair/repair_view.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Payment extends StatelessWidget {
   const Payment({super.key});
@@ -27,22 +30,6 @@ class Payment extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: scaleWidth(context, 20)),
-            child: Text(
-              'حفظ',
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                color: const Color(0xFF454545),
-                fontSize: scaleFont(context, 15),
-                fontFamily: 'noto',
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.45,
-              ),
-            ),
-          ),
-        ],
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xffF9F9F9),
         title: Center(
@@ -51,7 +38,7 @@ class Payment extends StatelessWidget {
             textAlign: TextAlign.right,
             style: TextStyle(
               color: const Color(0xFF1B2431),
-              fontSize: scaleFont(context, 22),
+              fontSize: 18.sp,
               fontFamily: 'noto',
               fontWeight: FontWeight.w700,
             ),
@@ -60,248 +47,147 @@ class Payment extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: scaleWidth(context, 20),
+          horizontal: 5.w,
         ),
-        child: ListView(
-          children: [
-            SizedBox(height: scaleHeight(context, 30)),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: scaleWidth(context, 240),
-                  bottom: scaleHeight(context, 20)),
-              child: Text(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 1.4.h),
+              Text(
                 'طرق دفع بنكية',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.right,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: scaleFont(context, 16),
+                  fontSize: 15.sp,
                   fontFamily: 'noto',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: scaleWidth(context, 390),
-                height: scaleHeight(context, 283),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: scaleHeight(context, 20)),
-                    const VisaContainer(
-                      image: "assets/images/logos_visa.png",
-                      name: "Visa Bank",
-                    ),
-                    SizedBox(height: scaleHeight(context, 10)),
-                    const VisaContainer(
-                      image: "assets/images/Group 34249.png",
-                      name: "Master card",
-                    ),
-                    SizedBox(height: scaleHeight(context, 10)),
-                    const VisaContainer(
-                      image: "assets/images/image 38.png",
-                      name: "Telda Card",
-                    ),
-                    SizedBox(height: scaleHeight(context, 16)),
-                    Row(
-                      children: [
-                        SizedBox(width: scaleWidth(context, 190)),
-                        Container(
-                          width: scaleWidth(context, 25),
-                          height: scaleHeight(context, 25),
-                          decoration: ShapeDecoration(
-                            color: Colors.lightBlue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Icon(
-                            IconsaxPlusLinear.add,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: scaleWidth(context, 10)),
-                        Text(
-                          'أضافه طريقه اخرى ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFF606060),
-                            fontSize: scaleFont(context, 14),
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              const Credit(),
+              SizedBox(
+                height: 3.h,
               ),
-            ),
-            SizedBox(height: scaleHeight(context, 20)),
-            Padding(
-              padding: EdgeInsets.only(left: scaleWidth(context, 240)),
-              child: Text(
+              Text(
                 'طرق دفع اخرى',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.right,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: scaleFont(context, 16),
+                  fontSize: 15.sp,
                   fontFamily: 'noto',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            SizedBox(height: scaleHeight(context, 20)),
-            Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: scaleWidth(context, 390),
-                height: scaleHeight(context, 135),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: scaleHeight(context, 15)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset(
-                          "assets/images/Gold coins and banknotes 3d cartoon style icon 1.png",
-                          width: scaleWidth(context, 65),
-                          height: scaleHeight(context, 65),
-                        ),
-                        Image.asset(
-                          "assets/images/image 5.png",
-                          width: scaleWidth(context, 65),
-                          height: scaleHeight(context, 65),
-                        ),
-                        Image.asset(
-                          "assets/images/image 7.png",
-                          width: scaleWidth(context, 50),
-                          height: scaleHeight(context, 50),
-                        ),
-                      ],
+              SizedBox(height: 1.5.h),
+              const VodafoneCash(),
+              SizedBox(height: 4.h),
+              Material(
+                elevation: 1.5,
+                borderRadius: BorderRadius.circular(2.h),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Offersview()),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 7.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2.h),
                     ),
-                    SizedBox(height: scaleHeight(context, 2)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'كاش عند الأستلام',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: scaleFont(context, 13),
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'فودافون كاش',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: scaleFont(context, 13),
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'اورانج كاش',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: scaleFont(context, 13),
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: scaleHeight(context, 30)),
-            Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: scaleWidth(context, 390),
-                height: scaleHeight(context, 70),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Icon(IconsaxPlusLinear.arrow_left_1),
-                    Text(
-                      'العروض',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: scaleFont(context, 16),
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w400,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Icon(IconsaxPlusLinear.arrow_left_1),
+                          Row(
+                            children: [
+                              Text(
+                                'العروض',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: scaleFont(context, 16),
+                                  fontFamily: 'noto',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              Icon(
+                                IconsaxPlusLinear.ticket_discount,
+                                size: 2.5.h,
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
-                    const Icon(IconsaxPlusLinear.ticket_discount),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: scaleHeight(context, 10)),
-            Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RepairView()),
-                  );
-                },
-                child: Container(
-                  width: scaleWidth(context, 390),
-                  height: scaleHeight(context, 70),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Icon(IconsaxPlusLinear.arrow_left_1),
-                      Text(
-                        'الخدمات',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: scaleFont(context, 16),
-                          fontFamily: 'noto',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Icon(LineAwesomeIcons.wrench_solid),
-                    ],
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-          ],
+              SizedBox(height: 1.h),
+              Material(
+                elevation: 1.5,
+                borderRadius: BorderRadius.circular(2.h),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RepairView()),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 7.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2.h),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Icon(IconsaxPlusLinear.arrow_left_1),
+                          Row(
+                            children: [
+                              Text(
+                                'الخدمات',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: scaleFont(context, 16),
+                                  fontFamily: 'noto',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              Icon(
+                                LineAwesomeIcons.wrench_solid,
+                                size: 2.5.h,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

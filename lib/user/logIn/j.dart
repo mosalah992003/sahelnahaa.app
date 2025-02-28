@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class PasswordFieldConfirm extends StatefulWidget {
   const PasswordFieldConfirm({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PasswordFieldState createState() => _PasswordFieldState();
 }
 
@@ -12,20 +15,16 @@ class _PasswordFieldState extends State<PasswordFieldConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen width to make it responsive
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double containerWidth = screenWidth > 400
-        ? 380
-        : screenWidth * 0.9; // Adjust width for smaller screens
-
     return Container(
-      width: containerWidth,
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      width: double.infinity,
+      height: 6.h,
+      padding: EdgeInsets.symmetric(
+        horizontal: 5.w,
+      ),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(1.h),
         ),
       ),
       child: Row(
@@ -34,9 +33,9 @@ class _PasswordFieldState extends State<PasswordFieldConfirm> {
         children: [
           IconButton(
             icon: Icon(
-              _isObscured ? Icons.visibility_off : Icons.visibility,
-              color:
-                  Colors.black.withOpacity(0.7), // Maintain visibility opacity
+              _isObscured ? IconsaxPlusLinear.eye_slash : IconsaxPlusLinear.eye,
+              color: Colors.black.withOpacity(0.6),
+              size: 2.6.h, // Maintain visibility opacity
             ),
             onPressed: () {
               setState(() {
@@ -44,17 +43,18 @@ class _PasswordFieldState extends State<PasswordFieldConfirm> {
               });
             },
           ),
-          const SizedBox(width: 155), // Adjusted spacing between icon and text
           Expanded(
             // Use Expanded to allow the text to fill the remaining space
             child: TextField(
               obscureText: _isObscured,
+              textDirection: TextDirection.rtl, // Set text direction to RTL
+              textAlign: TextAlign.right, // Align text and hint to the right
               decoration: InputDecoration(
                 hintText: 'تأكيد كلمة المرور',
                 border: InputBorder.none, // Remove default border
                 hintStyle: TextStyle(
                   color: Colors.black.withOpacity(0.7),
-                  fontSize: 16,
+                  fontSize: 15.sp,
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w400,
                 ),

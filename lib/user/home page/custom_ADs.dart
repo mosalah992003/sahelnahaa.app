@@ -1,11 +1,15 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sahelnahaa/user/offers/offersview.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class PromoCard extends StatefulWidget {
   const PromoCard({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PromoCardState createState() => _PromoCardState();
 }
 
@@ -42,26 +46,23 @@ class _PromoCardState extends State<PromoCard> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return Offersview();
+              return const Offersview();
             }));
           },
           child: Container(
-            width: screenWidth,
-            height:
-                screenWidth * 0.35, // Responsive height (35% of screen width)
+            width: double.infinity,
+            height: 16.h, // Responsive height (35% of screen width)
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(17),
+              borderRadius: BorderRadius.circular(2.5.h),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(17),
+              borderRadius: BorderRadius.circular(2.5.h),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
                 transitionBuilder: (Widget child, Animation<double> animation) {
@@ -78,16 +79,16 @@ class _PromoCardState extends State<PromoCard> {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 1.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(images.length, (index) {
             bool isActive = index == currentIndex;
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.5),
+              padding: EdgeInsets.symmetric(horizontal: .7.w),
               child: Container(
-                width: 8,
-                height: 8,
+                width: 2.w,
+                height: 1.h,
                 decoration: BoxDecoration(
                   color: isActive ? const Color(0xFF207768) : Colors.grey,
                   shape: BoxShape.circle,

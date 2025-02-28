@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class EmergencyOrder extends StatefulWidget {
   const EmergencyOrder({super.key});
@@ -22,36 +23,32 @@ class _EmergencyOrderState extends State<EmergencyOrder> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: 274,
-          height: 38,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+          width: 65.w,
+          height: 4.3.h,
+          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: const Color(0x7FDEE0E4),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(2.h),
             ),
           ),
-          child: const Row(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 7,
-              ),
               Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Icon(Icons.info),
-              ),
-              SizedBox(
-                width: 76,
+                padding: EdgeInsets.only(bottom: 1.h),
+                child: const Icon(Icons.info),
               ),
               Text(
                 'هل تريد الخدمة اليوم طارئة',
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  color: Color(0xFF23334A),
-                  fontSize: 12,
+                  color: const Color(0xFF23334A),
+                  fontSize: 14.sp,
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w400,
                   height: 0.12,
@@ -61,21 +58,21 @@ class _EmergencyOrderState extends State<EmergencyOrder> {
             ],
           ),
         ),
-        const SizedBox(
-          width: 7,
+        SizedBox(
+          width: 2.w,
         ),
         GestureDetector(
           onTap: _toggleColor, // Change the color when tapped
           child: Container(
-            width: 90,
-            height: 38,
-            padding: const EdgeInsets.all(10),
+            width: 23.w,
+            height: 4.7.h,
+            padding: EdgeInsets.all(1.h),
             decoration: ShapeDecoration(
               color: _containerColor, // Use the current color
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                  borderRadius: BorderRadius.circular(1.h)),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,8 +81,8 @@ class _EmergencyOrderState extends State<EmergencyOrder> {
                   'طلب فوري',
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                    color: Color(0xFFE0DEDE),
-                    fontSize: 15,
+                    color: const Color(0xFFE0DEDE),
+                    fontSize: 15.sp,
                     fontFamily: 'noto',
                     fontWeight: FontWeight.w600,
                     height: 0.08,

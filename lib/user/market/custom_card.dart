@@ -1,21 +1,142 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:sahelnahaa/user/market/details.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+class CustomCard extends StatefulWidget {
+  final String productName;
+  final String productDescription;
+  final String productPrice;
+  final String imagePath;
+
+  const CustomCard({
+    super.key,
+    required this.productName,
+    required this.productDescription,
+    required this.productPrice,
+    required this.imagePath,
+  });
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _CustomCardState createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  bool isLiked = false;
+  Color heartColor = Colors.grey.withOpacity(.4);
+
+  Future<void> _toggleLike() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Load existing liked items
+    String? favString = prefs.getString('favourites');
+    List<dynamic> jsonList = favString != null ? jsonDecode(favString) : [];
+    List<Map<String, dynamic>> favourites =
+        jsonList.map((e) => e as Map<String, dynamic>).toList();
+
+    // Check if the item is already liked
+    bool isAlreadyLiked = favourites.any(
+      (item) => item['title'] == widget.productName,
+    );
+
+    if (isAlreadyLiked) {
+      // Remove the item from the liked list
+      favourites.removeWhere((item) => item['title'] == widget.productName);
+    } else {
+      // Add the item to the liked list
+      favourites.add({
+        'title': widget.productName,
+        'photo': widget.imagePath,
+      });
+    }
+
+    // Save the updated list back to SharedPreferences
+    String jsonString = jsonEncode(favourites);
+    await prefs.setString('favourites', jsonString);
+
+    // Update the UI
+    setState(() {
+      isLiked = !isLiked;
+      heartColor = isLiked ? Colors.red : Colors.grey.withOpacity(.4);
+    });
+  }
+
+  Future<void> _addToCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Load existing cart items
+    String? cartString = prefs.getString('cart');
+    List<dynamic> jsonList = cartString != null ? jsonDecode(cartString) : [];
+    List<Map<String, dynamic>> cartItems =
+        jsonList.map((e) => e as Map<String, dynamic>).toList();
+
+    // Add the current product to the cart
+    cartItems.add({
+      'title': widget.productName,
+      'description': widget.productDescription,
+      'price': widget.productPrice,
+      'image': widget.imagePath,
+    });
+
+    // Save the updated list back to SharedPreferences
+    String jsonString = jsonEncode(cartItems);
+    await prefs.setString('cart', jsonString);
+
+    // Show a snackbar to indicate the product has been added to the cart
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xff207768),
+        content: Center(
+          child: Text(
+            'تمت إضافة المنتج إلى السلة بنجاح',
+            style: TextStyle(
+              fontFamily: "noto",
+              fontSize: 15.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLikedItems();
+  }
+
+  Future<void> _loadLikedItems() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? favString = prefs.getString('favourites');
+    List<dynamic> jsonList = favString != null ? jsonDecode(favString) : [];
+    List<Map<String, dynamic>> favourites =
+        jsonList.map((e) => e as Map<String, dynamic>).toList();
+
+    bool isAlreadyLiked = favourites.any(
+      (item) => item['title'] == widget.productName,
+    );
+
+    setState(() {
+      isLiked = isAlreadyLiked;
+      heartColor = isLiked ? Colors.red : Colors.grey.withOpacity(.4);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Get the dimensions of the screen
-
     return Container(
-      width: 187,
-      height: 291, // Increased height
+      width: double.infinity,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22.58),
+          borderRadius: BorderRadius.circular(1.5.h),
         ),
         shadows: const [
           BoxShadow(
@@ -29,118 +150,95 @@ class CustomCard extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Discount badge at the top left
           Positioned(
-            top: 12,
-            left: 12,
-            child: Container(
-              width: 63,
-              height: 20,
-              decoration: ShapeDecoration(
-                color: const Color(0xFF881A1A),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+            top: 1.h,
+            left: -1.w,
+            child: IconButton(
+              icon: Icon(
+                IconsaxPlusBold.heart,
+                color: heartColor,
+                size: 2.8.h,
               ),
-              child: const Center(
-                child: Text(
-                  'خصم 20%',
-                  style: TextStyle(
-                    color: Color(0xFFD7C9C9),
-                    fontSize: 10,
-                    fontFamily: 'noto',
-                    fontWeight: FontWeight.w600,
+              onPressed: _toggleLike,
+            ),
+          ),
+          Positioned(
+            top: 3.h,
+            left: 8.w,
+            right: 8.w,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Details(
+                      productName: widget.productName,
+                      productDescription: widget.productDescription,
+                      productPrice: widget.productPrice,
+                      imagePath: widget.imagePath,
+                    ),
                   ),
+                );
+              },
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(1.5.h),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(.1.w),
+                  child: Image.asset(widget.imagePath),
                 ),
               ),
             ),
           ),
-          // Heart icon at the top right
           Positioned(
-            top: 12,
-            right: 12,
-            child: Container(
-              width: 28,
-              height: 28,
-              padding: const EdgeInsets.all(6.29),
-              decoration: ShapeDecoration(
-                color: const Color(0xFFCDD0CF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(54),
-                ),
-              ),
-              child: const Icon(
-                IconsaxPlusLinear.heart,
-                color: Colors.white,
-                size: 15,
-              ),
-            ),
-          ),
-          // Product image in the center
-          Positioned(
-            top: 45,
-            left: 26,
-            right: 26,
-            child: Container(
-              height: 150,
-              width: 155, // Decreased height by 20%
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/shop/image 4.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          // Product description and price at the bottom left
-          const Positioned(
-            bottom: 50,
-            left: 8,
+            top: 19.h,
+            left: 2.w,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'السعر الحالى',
                   style: TextStyle(
-                    color: Color(0xFF848484),
-                    fontSize: 8,
+                    fontSize: 11.sp,
                     fontFamily: 'noto',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                SizedBox(height: .6.h),
                 Text(
-                  '520 جنية',
+                  widget.productPrice,
                   style: TextStyle(
-                    color: Color(0xFF191919),
-                    fontSize: 11,
+                    fontSize: 15.sp,
                     fontFamily: 'noto',
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
             ),
           ),
-          // Product name and details at the bottom right
-          const Positioned(
-            bottom: 50,
-            right: 8,
+          Positioned(
+            top: 18.7.h,
+            right: 2.w,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'مروحة 3 ريشة',
+                  widget.productName,
                   style: TextStyle(
-                    color: Color(0xFF20776B),
-                    fontSize: 12,
+                    color: const Color(0xff207768),
+                    fontSize: 15.sp,
                     fontFamily: 'noto',
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
+                SizedBox(height: .6.h),
                 Text(
-                  'مروحه بها منظم سرعات ',
+                  widget.productDescription,
                   style: TextStyle(
-                    color: Color(0xFF848484),
-                    fontSize: 7,
+                    fontSize: 11.sp,
                     fontFamily: 'noto',
                     fontWeight: FontWeight.w500,
                   ),
@@ -149,59 +247,44 @@ class CustomCard extends StatelessWidget {
             ),
           ),
           Positioned(
-              bottom: 7,
-              right: 30,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Details(); // Assuming DetailsPage is the widget for the details page
-                  }));
-                },
-                child: Container(
-                  width: 123,
-                  height: 32,
-                  padding: const EdgeInsets.all(10),
-                  decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment(0.00, -1.00),
-                      end: Alignment(0, 1),
-                      colors: [Color(0xFF20776B), Color(0xFF3B7F76)],
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+            top: 25.h,
+            right: 6.w,
+            left: 6.w,
+            child: GestureDetector(
+              onTap: _addToCart,
+              child: Container(
+                height: 4.h,
+                decoration: ShapeDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF20776B), Color(0xFF3B7F76)],
                   ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(
-                          IconsaxPlusLinear.shopping_cart,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
-                      SizedBox(width: 6),
-                      VerticalDivider(
-                        width: 1,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 6),
-                      Text(
-                        'إضافة إلى السلة',
-                        style: TextStyle(
-                          color: Color(0xFFFAF9F9),
-                          fontSize: 9,
-                          fontFamily: 'noto',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(1.h),
                   ),
                 ),
-              )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      IconsaxPlusLinear.shopping_cart,
+                      color: Colors.white,
+                      size: 2.h,
+                    ),
+                    SizedBox(width: 1.3.w),
+                    Text(
+                      'إضافة إلى السلة',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontFamily: 'noto',
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

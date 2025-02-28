@@ -1,36 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Textfieldregister extends StatelessWidget {
+  // ignore: use_super_parameters
   const Textfieldregister({required this.name, Key? key}) : super(key: key);
 
   final String name;
 
   @override
   Widget build(BuildContext context) {
-    // Get screen dimensions
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
-    // Set consistent sizes based on screen dimensions
-    final double containerWidth =
-        screenWidth > 400 ? 380 : screenWidth * 0.9; // Responsive width
-    final double containerHeight = 56; // Fixed height
-    final double paddingHorizontal =
-        screenWidth * 0.04; // 4% of screen width for horizontal padding
-    final double paddingVertical =
-        screenHeight * 0.01; // 1% of screen height for vertical padding
-    final double hintFontSize =
-        screenWidth * 0.04; // Responsive hint text font size
-
     return Container(
-      width: containerWidth,
-      height: containerHeight,
+      width: double.infinity,
+      height: 6.h,
       padding: EdgeInsets.symmetric(
-          horizontal: paddingHorizontal, vertical: paddingVertical),
+        horizontal: 5.w,
+      ),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(1.h),
         ),
       ),
       child: Row(
@@ -47,7 +35,7 @@ class Textfieldregister extends StatelessWidget {
                 hintText: name, // Use the name as hint text
                 hintStyle: TextStyle(
                   color: Colors.black.withOpacity(0.7),
-                  fontSize: hintFontSize, // Responsive hint text font size
+                  fontSize: 15.sp, // Screen go responsive hint text font size
                   fontFamily: 'noto',
                   fontWeight: FontWeight.w400,
                 ),

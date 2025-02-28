@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sahelnahaa/user/logIn/j.dart';
-import 'package:sahelnahaa/user/logIn/log_in.dart';
 import 'package:sahelnahaa/user/logIn/password.dart';
 import 'package:sahelnahaa/user/logIn/register_otp.dart';
 import 'package:sahelnahaa/user/logIn/textfieldregister.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class Register extends StatelessWidget {
   const Register({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Get screen dimensions
-    final screenSize = MediaQuery.of(context).size;
-    final double paddingValue =
-        screenSize.width * 0.05; // 5% padding for responsiveness
-    final double containerWidth =
-        screenSize.width * 0.95; // 95% of screen width
-    final double buttonHeight = screenSize.height * 0.07; // 7% of screen height
-
     return Scaffold(
       body: Container(
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -29,39 +21,38 @@ class Register extends StatelessWidget {
               Color(0xFF215F56), // The specific color you requested
               Color(0xff207768), // Your original background color
             ],
-            stops: [0.1, 0.3], // Adjust the gradient stop to control height
+            stops: [0.1, 0.4], // Adjust the gradient stop to control height
           ),
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: paddingValue),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: screenSize.height *
-                          0.1), // Adjust top padding based on screen height
+                      top: 10.h), // Adjust top padding based on screen height
                   child: Image.asset(
                     "assets/shop/logo.png",
-                    width: screenSize.width * 0.25, // 25% of screen width
-                    height: screenSize.height * 0.11, // 15% of screen height
+                    width: 30.w, // 25% of screen width
+                    height: 10.h, // 15% of screen height
                   ),
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 7.h),
                 const Textfieldregister(name: 'الإسم الأول'),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const Textfieldregister(name: 'الإسم الثانى'),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const Textfieldregister(name: 'الإيميل'),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const Textfieldregister(name: 'رقم الهاتف'),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const Textfieldregister(name: 'العنوان'),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const PasswordField(),
-                const SizedBox(height: 10),
+                SizedBox(height: 1.5.h),
                 const PasswordFieldConfirm(),
-                const SizedBox(height: 30),
+                SizedBox(height: 3.h),
                 GestureDetector(
                   // Wrap the container with GestureDetector
                   onTap: () {
@@ -72,21 +63,20 @@ class Register extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: containerWidth,
-                    height: buttonHeight * 0.9, // Decreased height by 20%
-                    padding: const EdgeInsets.all(8),
+                    width: double.infinity,
+                    height: 6.h, // Decreased height by 20%
                     decoration: ShapeDecoration(
                       color: const Color(0xffF2A941),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(1.h),
                       ),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'إنشاء حساب',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 16.sp,
                           fontFamily: 'noto',
                           fontWeight: FontWeight.w500,
                           height:
@@ -96,7 +86,7 @@ class Register extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 2.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -104,23 +94,23 @@ class Register extends StatelessWidget {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: const Text(
+                      child: Text(
                         'تسجيل الدخول',
                         style: TextStyle(
-                          color: Color(0xFFF2A941),
-                          fontSize: 14,
+                          color: const Color(0xFFF2A941),
+                          fontSize: 14.sp,
                           fontFamily: 'noto',
                           fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Center(
+                    SizedBox(width: 2.w),
+                    Center(
                       child: Text(
                         'لديك حساب بالفعل؟',
                         style: TextStyle(
-                          color: Color(0xFFFAFAFA),
-                          fontSize: 14,
+                          color: const Color(0xFFFAFAFA),
+                          fontSize: 13.sp,
                           fontFamily: 'noto',
                           fontWeight: FontWeight.w400,
                         ),

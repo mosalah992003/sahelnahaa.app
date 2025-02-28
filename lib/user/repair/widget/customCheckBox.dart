@@ -1,9 +1,12 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
   const CustomCheckbox({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
 
@@ -21,7 +24,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         });
       },
       checkColor: Colors.white,
-      activeColor: Color(0xff207768),
+      activeColor: const Color(0xff207768),
       side: BorderSide(
         color: isChecked ? Colors.white : Colors.grey,
         width: 2.0,

@@ -1,31 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:sahelnahaa/user/logIn/success.dart';
-import 'package:sahelnahaa/user/logIn/textfieldregister.dart';
 import 'package:sahelnahaa/user/payment/success.dart';
-import 'package:sahelnahaa/user/payment/textfieldregister.dart';
-import 'package:sahelnahaa/user/profile/visa_container.dart';
+import 'package:sahelnahaa/user/profile/credit.dart';
+import 'package:sahelnahaa/user/profile/vodafonecash.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Payment extends StatelessWidget {
+class Payment extends StatefulWidget {
   const Payment({super.key});
+
+  @override
+  State<Payment> createState() => _PaymentState();
+}
+
+class _PaymentState extends State<Payment> {
+  // Controllers for text fields
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  double totalAmount = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTotalAmount(); // Load total amount when the page initializes
+  }
+
+  // Load total amount from SharedPreferences
+  Future<void> _loadTotalAmount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      totalAmount = prefs.getDouble('totalAmount') ?? 0.0; // Load total amount
+    });
+  }
+
+  // Method to validate input
+  bool _validateInput() {
+    if (_nameController.text.isEmpty ||
+        _phoneController.text.isEmpty ||
+        _addressController.text.isEmpty) {
+      // Show an error message if any field is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+            child: Text(
+              'الرجاء ملء جميع الحقول المطلوبة',
+              style: TextStyle(
+                fontFamily: "noto",
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          backgroundColor: const Color(0xff207768),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff9f9f9),
+      backgroundColor: const Color(0xfff9f9f9),
       appBar: AppBar(
-        backgroundColor: Color(0xfff9f9f9),
+        backgroundColor: const Color(0xfff9f9f9),
         automaticallyImplyLeading: false,
         title: Center(
           child: Text(
             'الدفع',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Color(0xFF1B2431),
-              fontSize: 20,
+              color: const Color(0xFF1B2431),
+              fontSize: 18.sp,
               fontFamily: 'noto',
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w700,
               letterSpacing: -0.60,
             ),
           ),
@@ -34,20 +83,20 @@ class Payment extends StatelessWidget {
       body: ListView(
         children: [
           Container(
-            width: 430,
-            height: 46,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Color(0xFFEBE9E9)),
+            width: double.infinity,
+            height: 5.h,
+            padding: EdgeInsets.all(1.h),
+            decoration: const BoxDecoration(color: Color(0xFFEBE9E9)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'المعلومات الشخصية',
                   style: TextStyle(
-                    color: Color(0xFF6B6B6B),
-                    fontSize: 16,
+                    color: const Color(0xFF6B6B6B),
+                    fontSize: 16.sp,
                     fontFamily: 'noto',
                     fontWeight: FontWeight.w600,
                     height: 0,
@@ -57,110 +106,106 @@ class Payment extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 3.h,
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20),
-            child: Container(
-              width: 390,
-              height: 382,
-              padding: const EdgeInsets.only(right: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: -2.0,
-                    blurRadius: 4.0,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 27, left: 250),
-                    child: Text(
-                      'الأسم كامل * ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.699999988079071),
-                        fontSize: 14,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w400,
-                      ),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Container(
+                width: double.infinity,
+                height:
+                    MediaQuery.of(context).size.height * 0.35, // Dynamic height
+                padding: EdgeInsets.symmetric(
+                    horizontal: 5.w, vertical: 2.h), // Add vertical padding
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(2.h),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12, // Shadow color
+                      blurRadius: 5, // Blur radius
+                      spreadRadius: 2, // Spread radius
+                      offset: Offset(0, 2), // Shadow position
                     ),
-                  ),
-                  Textfield(
-                    name: 'الأسم كامل',
-                  ),
-                  Divider(
-                    endIndent: 15,
-                    indent: 25,
-                    thickness: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 27, left: 250),
-                    child: Text(
-                      'رقم الهاتف*',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.699999988079071),
-                        fontSize: 14,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w400,
+                  ],
+                ),
+                child: SingleChildScrollView(
+                  // Allow scrolling if content overflows
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First TextField for full name
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: 'الأسم كامل',
+                          hintStyle: TextStyle(
+                            fontFamily: "noto",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(1.h),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Textfield(
-                    name: 'رقم الهاتف',
-                  ),
-                  Divider(
-                    endIndent: 15,
-                    indent: 25,
-                    thickness: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 27, left: 210),
-                    child: Text(
-                      'العنوان بالتفصيل *',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.699999988079071),
-                        fontSize: 14,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w400,
+                      SizedBox(height: 2.h), // Spacing between TextFields
+                      // Second TextField for phone number
+                      TextField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          hintText: 'رقم الهاتف',
+                          hintStyle: TextStyle(
+                            fontFamily: "noto",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(1.h),
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 2.h), // Spacing between TextFields
+                      // Third TextField for address
+                      TextField(
+                        controller: _addressController,
+                        decoration: InputDecoration(
+                          hintText: 'العنوان بالتفصيل',
+                          hintStyle: TextStyle(
+                            fontFamily: "noto",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(1.h),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Textfield(
-                    name: 'العنوان بالتفصيل',
-                  ),
-                  Divider(
-                    endIndent: 15,
-                    indent: 25,
-                    thickness: 2,
-                  )
-                ],
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 3.h,
           ),
           Container(
-            width: 430,
-            height: 46,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Color(0xFFEAE9E9)),
+            width: double.infinity,
+            height: 5.h,
+            padding: EdgeInsets.all(1.h),
+            decoration: const BoxDecoration(color: Color(0xFFEAE9E9)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'طريقة الدفع',
                   style: TextStyle(
-                    color: Color(0xFF6B6B6B),
-                    fontSize: 16,
+                    color: const Color(0xFF6B6B6B),
+                    fontSize: 16.sp,
                     fontFamily: 'noto',
                     fontWeight: FontWeight.w600,
                     height: 0,
@@ -170,144 +215,25 @@ class Payment extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 1.h,
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 30),
-            child: Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: 390,
-                height: 430,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    const VisaContainer(
-                      image: "assets/images/logos_visa.png",
-                      name: "Visa Bank",
-                    ),
-                    SizedBox(height: 10),
-                    const VisaContainer(
-                      image: "assets/images/Group 34249.png",
-                      name: "Master card",
-                    ),
-                    SizedBox(height: 10),
-                    const VisaContainer(
-                      image: "assets/images/image 38.png",
-                      name: "Telda Card",
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset(
-                          "assets/images/Gold coins and banknotes 3d cartoon style icon 1.png",
-                          width: 65,
-                          height: 65,
-                        ),
-                        Image.asset(
-                          "assets/images/image 5.png",
-                          width: 65,
-                          height: 65,
-                        ),
-                        Image.asset(
-                          "assets/images/image 7.png",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'كاش عند الأستلام',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: 13,
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'فودافون كاش',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: 13,
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'اورانج كاش',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: 13,
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
-                        Icon(IconsaxPlusLinear.record),
-                        Icon(IconsaxPlusLinear.record),
-                        Icon(IconsaxPlusLinear.record)
-                      ],
-                    ),
-                    SizedBox(height: 40),
-                    Row(
-                      children: [
-                        SizedBox(width: 190),
-                        Container(
-                          width: 25,
-                          height: 25,
-                          decoration: ShapeDecoration(
-                            color: Colors.lightBlue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Icon(
-                            IconsaxPlusLinear.add,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'أضافه طريقه اخرى ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFF606060),
-                            fontSize: 14,
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: const Credit(),
+          ),
+          SizedBox(
+            height: 2.h,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: const VodafoneCash(),
+          ),
+          SizedBox(
+            height: 4.h,
           ),
           Container(
             width: double.infinity,
-            height: 111,
+            height: 12.h,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -315,35 +241,34 @@ class Payment extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
             child: Column(
               children: [
                 SizedBox(
-                  height: 15,
+                  height: 1.h,
                 ),
                 Container(
-                  width: 390,
+                  width: double.infinity,
                   height: 2,
-                  padding: const EdgeInsets.only(right: 156),
-                  decoration: BoxDecoration(color: Color(0xFFF7F4FB)),
+                  decoration: const BoxDecoration(color: Color(0xFFF7F4FB)),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 234,
-                        height: 4,
+                        width: 50.w,
+                        height: 1.h,
                         clipBehavior: Clip.antiAlias,
-                        decoration: const ShapeDecoration(
-                          color: Color(0xFF20776B),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF20776B),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(8),
-                              bottomRight: Radius.circular(8),
+                              topRight: Radius.circular(1.h),
+                              bottomRight: Radius.circular(1.h),
                             ),
                           ),
                         ),
@@ -351,78 +276,88 @@ class Payment extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    const Column(
-                      children: [
-                        SizedBox(
-                          height: 14,
-                        ),
-                        SizedBox(
-                          width: 110,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 26),
-                            child: Text(
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Text(
                               'الأجمالى',
                               style: TextStyle(
-                                color: Color(0xFF777777),
-                                fontSize: 13,
+                                color: const Color(0xFF777777),
+                                fontSize: 14.sp,
                                 fontFamily: 'noto',
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: -0.39,
                               ),
                             ),
-                          ),
-                        ),
-                        Text(
-                          '1200 جنية',
-                          style: TextStyle(
-                            color: Color(0xFF20776B),
-                            fontSize: 25,
-                            fontFamily: 'noto',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, left: 40),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Success2()),
-                          );
-                        },
-                        child: Container(
-                          width: 185,
-                          height: 50,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFE7E7E7),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                            SizedBox(
+                              height: .5.h,
                             ),
-                          ),
-                          child: Center(
-                            child: const Text(
-                              'التالي',
+                            Text(
+                              'جنية$totalAmount', // Display total amount
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
+                                color: const Color(0xFF20776B),
+                                fontSize: 18.sp,
                                 fontFamily: 'noto',
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.48,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 2.h,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            // Validate input before navigating
+                            if (_validateInput()) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Success2(
+                                    phoneNumber: _phoneController.text,
+                                    address: _addressController.text,
+                                    totalAmount: totalAmount,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 50.w,
+                            height: 6.h,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFF207768),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.h),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'التالي',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontFamily: 'noto',
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.48,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

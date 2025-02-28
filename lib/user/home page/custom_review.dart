@@ -1,6 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class CustomReview extends StatefulWidget {
   const CustomReview({super.key});
@@ -10,145 +12,203 @@ class CustomReview extends StatefulWidget {
 }
 
 class _CustomReviewState extends State<CustomReview> {
+  List<String> reviews = [];
+  int _currentIndex = 0;
+
   @override
-  Widget build(BuildContext context) {
-    // Set the active dot index; this can be controlled by a state management solution.
-    int _currentIndex = 9;
+  void initState() {
+    super.initState();
+    _loadReviews();
+  }
 
-    // Get the screen size for responsive design
-    final screenWidth = MediaQuery.of(context).size.width;
+  Future<void> _loadReviews() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      reviews = prefs.getStringList('reviews') ?? [];
+    });
+  }
 
-    // Define a base width for responsive design
-    const double baseWidth = 390.0;
+  Future<void> _saveReview(String review) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    reviews.add(review);
+    await prefs.setStringList('reviews', reviews);
+    setState(() {});
+  }
 
-    // Calculate scale factors based on screen size
-    final widthFactor = screenWidth / baseWidth;
+  void _changeReview(int direction) {
+    if (reviews.isNotEmpty) {
+      setState(() {
+        _currentIndex = (_currentIndex + direction) % reviews.length;
+      });
+    }
+  }
 
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: 20 * widthFactor, vertical: 10),
-          child: Container(
-            width: baseWidth * widthFactor,
-            decoration: ShapeDecoration(
-              color: const Color(0xFFE1E1E1),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 1, color: Color(0xFFBFBFBF)),
-                borderRadius: BorderRadius.circular(24 * widthFactor),
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    'أراء العملاء في الخدمة',
-                    textAlign: TextAlign.right,
+  void _showAddReviewDialog() {
+    TextEditingController reviewController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            title: Center(
+                child: Text("أضف رأيك",
                     style: TextStyle(
-                      color: Colors.black.withOpacity(0.9),
-                      fontSize: 16 * widthFactor,
-                      fontFamily: 'noto',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Text(
-                  'شاركنا رأيك',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 10 * widthFactor,
-                    fontFamily: 'noto',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Row(
+                      fontFamily: "noto",
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold,
+                    ))),
+            content: TextField(
+              controller: reviewController,
+              decoration: InputDecoration(
+                  hintText: "اكتب رأيك هنا",
+                  hintStyle: TextStyle(
+                    fontFamily: "noto",
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              ' أود شكر كل القائمين على الفكرة و العمل لأنجاح هذا',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.8),
-                                fontSize: 10 * widthFactor,
-                                fontFamily: 'noto',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Text(
-                              ' المشروع كان ناجحاً بفضل جهودهم',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.8),
-                                fontSize: 10 * widthFactor,
-                                fontFamily: 'noto',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff20776b),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.h),
+                          ),
+                        ),
+                        onPressed: () {
+                          if (reviewController.text.isNotEmpty) {
+                            _saveReview(reviewController.text);
+                          }
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "حفظ",
+                          style: TextStyle(
+                            fontFamily: "noto",
+                            fontSize: 15.sp,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 56 * widthFactor,
-                      height: 56 * widthFactor,
-                      padding: EdgeInsets.all(8 * widthFactor),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFF8F8F8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(29 * widthFactor),
+                    SizedBox(width: 4.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade700,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.h),
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        width: 40 * widthFactor,
-                        height: 40 * widthFactor,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/cards/image 37.png"),
-                            fit: BoxFit.fill,
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          "إلغاء",
+                          style: TextStyle(
+                            fontFamily: "noto",
+                            fontSize: 15.sp,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+          child: Container(
+            width: double.infinity,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFE1E1E1),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: .2.w, color: const Color(0xFFBFBFBF)),
+                borderRadius: BorderRadius.circular(3.h),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                      left: 20 * widthFactor, right: 4 * widthFactor),
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'omar ghaly',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.9),
-                        fontSize: 10 * widthFactor,
-                        fontFamily: 'noto',
-                        fontWeight: FontWeight.w800,
-                      ),
+                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                  child: Text(
+                    'أراء العملاء في الخدمة',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.9),
+                      fontSize: 16.sp,
+                      fontFamily: 'noto',
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 10, right: 280 * widthFactor),
-                  child: Container(
-                    width: 30 * widthFactor,
-                    height: 30 * widthFactor,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xff207768),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(29 * widthFactor),
-                      ),
+                SizedBox(height: 1.5.h),
+                if (reviews.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_ios,
+                              color: Colors.black, size: 2.5.h),
+                          onPressed: () => _changeReview(-1),
+                        ),
+                        Expanded(
+                          child: Text(
+                            reviews[_currentIndex],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.8),
+                              fontSize: 13.sp,
+                              fontFamily: 'noto',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward_ios,
+                              color: Colors.black, size: 2.5.h),
+                          onPressed: () => _changeReview(1),
+                        ),
+                      ],
                     ),
-                    child: const Icon(
-                      IconsaxPlusLinear.add,
-                      color: Colors.white,
+                  ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 2.h, right: 70.w),
+                  child: GestureDetector(
+                    onTap: _showAddReviewDialog,
+                    child: Container(
+                      width: 8.w,
+                      height: 3.5.h,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xff207768),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.h),
+                        ),
+                      ),
+                      child: Icon(
+                        IconsaxPlusLinear.add,
+                        color: Colors.white,
+                        size: 3.h,
+                      ),
                     ),
                   ),
                 ),
@@ -156,23 +216,20 @@ class _CustomReviewState extends State<CustomReview> {
             ),
           ),
         ),
-        // Dot indicator row
         DotsIndicator(
-          dotsCount: 10,
-          position: _currentIndex,
-          onTap: (position) {
-            setState(() => _currentIndex = position);
-          },
+          dotsCount: reviews.isNotEmpty ? reviews.length : 1,
+          position: _currentIndex, // Bind the active dot to _currentIndex
           decorator: DotsDecorator(
-            size: const Size.square(7.0),
-            activeSize: const Size(18.0, 9.0),
+            size: Size.square(.8.h),
+            activeSize: Size(1.9.h, 0.8.h),
             activeColor: const Color(0xff207768),
             color: Colors.grey,
             activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
+              borderRadius: BorderRadius.circular(1.h),
+            ),
           ),
         ),
-        const SizedBox(height: 50),
+        SizedBox(height: 7.h),
       ],
     );
   }

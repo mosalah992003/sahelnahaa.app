@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sahelnahaa/on%20bording/onbording1.dart';
+import 'package:screen_go/extensions/responsive_nums.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -47,42 +48,47 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splash: Column(
-        children: [
-          Center(
-            child: LottieBuilder.asset(
-              "assets/lottie/Animation - 1730462971575.json",
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      body: AnimatedSplashScreen(
+        splash: Column(
+          children: [
+            Center(
+              child: LottieBuilder.asset(
+                "assets/lottie/Animation - 1730462971575.json",
+              ),
             ),
-          ),
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()
-                  ..scale(_scaleAnimation.value) // Scale effect
-                  ..rotateZ(_skewAnimation.value), // Wobble rotation effect
-                child: const Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    "سهلناها",
-                    style: TextStyle(
-                      color: Color(0xff207768),
-                      fontFamily: "noto",
-                      fontSize: 44,
-                      fontWeight: FontWeight.w900,
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..scale(_scaleAnimation.value) // Scale effect
+                    ..rotateZ(_skewAnimation.value), // Wobble rotation effect
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: Text(
+                      "سهلناها",
+                      style: TextStyle(
+                        color: const Color(0xff207768),
+                        fontFamily: "noto",
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
+        nextScreen: const DoorHubOnboardingScreen(),
+        splashIconSize: 70.h,
+        duration: 4500,
       ),
-      nextScreen: const DoorHubOnboardingScreen(),
-      splashIconSize: 550,
-      duration: 4500,
     );
   }
 }

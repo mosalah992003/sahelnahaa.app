@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:sahelnahaa/user/logIn/reset_password.dart';
 import 'package:sahelnahaa/user/logIn/welcome.dart';
+import 'package:screen_go/extensions/responsive_nums.dart'; // Import your ResetPassword page
 
 class OtpTextFieldd extends StatefulWidget {
   const OtpTextFieldd({super.key});
@@ -26,18 +26,17 @@ class _OtpTextFieldState extends State<OtpTextFieldd> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
-    // Calculate dimensions for responsiveness
-    final pinFieldSize = screenSize.width * 0.14; // 14% of screen width
-    final pinFontSize = screenSize.width * 0.05; // Responsive font size
+    // Calculate dimensions based on screen width
+    final double pinWidth = 14.w; // 15% of screen width
+    final double pinHeight = 6.3.h; // Maintain square shape
+    final double fontSize = 20.sp; // Font size relative to pin width
 
     final defaultPinTheme = PinTheme(
-      width: pinFieldSize,
-      height: pinFieldSize,
-      textStyle: TextStyle(fontSize: pinFontSize, color: Colors.black),
+      width: pinWidth,
+      height: pinHeight,
+      textStyle: TextStyle(fontSize: fontSize, color: Colors.black),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(1.h),
         border: Border.all(color: borderColor),
       ),
     );
@@ -48,6 +47,7 @@ class _OtpTextFieldState extends State<OtpTextFieldd> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Directionality(
+            // Specify direction if desired
             textDirection: TextDirection.ltr,
             child: Pinput(
               length: 4,
@@ -56,8 +56,8 @@ class _OtpTextFieldState extends State<OtpTextFieldd> {
               hapticFeedbackType: HapticFeedbackType.lightImpact,
               onCompleted: (pin) {
                 debugPrint('onCompleted: $pin');
-                // Navigate to Welcome page
-                Navigator.push(
+                // Navigate to ResetPassword page
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Welcome()),
                 );
@@ -69,23 +69,23 @@ class _OtpTextFieldState extends State<OtpTextFieldd> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(bottom: 9),
-                    width: 24,
+                    margin: EdgeInsets.only(bottom: 1.h),
+                    width: 6.w, // Adjust cursor width
                     height: 2,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ],
               ),
               focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(1.h),
                   border: Border.all(color: focusedBorderColor),
                 ),
               ),
               submittedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
                   color: fillColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(1.h),
                   border: Border.all(color: focusedBorderColor),
                 ),
               ),
