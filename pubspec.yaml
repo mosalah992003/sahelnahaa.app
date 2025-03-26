@@ -47,6 +47,16 @@ dependencies:
   photo_view:
   tap_to_expand:
   cupertino_icons: ^1.0.8
+  http:
+  intl:
+  chat_bubbles:
+  file_picker: 
+  path_provider:
+  uuid: 
+  flutter_pdfview:
+  path:
+  permission_handler:
+ 
 
 dev_dependencies:
   flutter_test:

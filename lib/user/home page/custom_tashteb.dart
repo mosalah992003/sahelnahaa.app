@@ -106,7 +106,7 @@ class _CustomTashtebState extends State<CustomTashteb> {
                   widget.photo,
                   width: 65.1.w,
                   height: 17.5.h,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

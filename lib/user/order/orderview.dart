@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:sahelnahaa/user/chatbot/chat_screen.dart';
 import 'package:sahelnahaa/user/home%20page/home_page.dart';
+import 'package:sahelnahaa/user/inbox/chatbot.dart';
 import 'package:sahelnahaa/user/market/market_view.dart';
 import 'package:sahelnahaa/user/order/canceldorder.dart';
 import 'package:sahelnahaa/user/order/confirmorder.dart';
@@ -33,35 +33,43 @@ class _OrderviewState extends State<Orderview> {
   bool showConfirmOrder = false; // Controls visibility of Confirmorder
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const HomePage();
-        }));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const RepairView();
-        }));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const MarketView();
-        }));
-        break;
-      // ignore: unreachable_switch_case
-      case 3:
-        if (_selectedIndex != 3) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const HomePage();
-          }));
-        }
-        break;
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RepairView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 0;
+        });
+      });
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MarketView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 0;
+        });
+      });
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 0;
+        });
+      });
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
     }
   }
 

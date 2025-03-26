@@ -5,17 +5,17 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahelnahaa/user/carts/cart_view.dart';
-import 'package:sahelnahaa/user/chatbot/chat_screen.dart';
 import 'package:sahelnahaa/user/home%20page/custom_ADs.dart';
 import 'package:sahelnahaa/user/home%20page/custom_cards.dart';
 import 'package:sahelnahaa/user/home%20page/custom_drawer.dart';
 import 'package:sahelnahaa/user/home%20page/custom_review.dart';
 import 'package:sahelnahaa/user/home%20page/custom_tashteb.dart';
 import 'package:sahelnahaa/user/home%20page/custom_text.dart';
+import 'package:sahelnahaa/user/inbox/chatbot.dart';
+import 'package:sahelnahaa/user/market/market_view.dart';
 import 'package:sahelnahaa/user/notification/notification2.dart';
 import 'package:sahelnahaa/user/order/orderview.dart';
 import 'package:sahelnahaa/user/repair/repair_view.dart';
-import 'package:sahelnahaa/user/market/market_view.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   String userName = 'محمد'; // Default name
   String userAddress = 'شارع احمد كامل الدقهليه'; // Default address
   String? _profileImagePath; // To store the selected image path
-  int _selectedIndex = 3;
+  int _selectedIndex = 3; // Default to Home page
 
   @override
   void initState() {
@@ -43,34 +43,44 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const Orderview();
-        }));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const RepairView();
-        }));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const MarketView();
-        }));
-        break;
-      case 3:
-        if (_selectedIndex != 3) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const HomePage();
-          }));
-        }
-        break;
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Orderview(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 3;
+        });
+      });
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RepairView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 3;
+        });
+      });
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MarketView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 3;
+        });
+      });
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
     }
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   Future<void> _loadUserData() async {
@@ -201,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                     radius: 3.h,
                     backgroundImage: _profileImagePath != null
                         ? FileImage(File(_profileImagePath!)) as ImageProvider
-                        : const AssetImage("assets/images/default_profile.png"),
+                        : const AssetImage("assets/images/profile.png"),
                   ),
                 ),
               ),
@@ -234,27 +244,27 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   CustomTashteb(
-                    photo: 'assets/cards/Select Inverse 1.png',
+                    photo: 'assets/cards/Group 48095502.png',
                     price: '4200',
                     tittle: 'تركيب جميع أدوات السباكة ',
                   ),
                   CustomTashteb(
-                    photo: 'assets/cards/11 1.png',
+                    photo: 'assets/cards/Group 48095501.png',
                     price: '2400',
                     tittle: 'تركيب ستائر وديكور 4 غرف ',
                   ),
                   CustomTashteb(
-                    photo: "assets/cards/22 1.png",
+                    photo: 'assets/cards/Group 48095500.png',
                     price: "1500",
                     tittle: 'دهان ونقاشة كاملة و السعر للغرفة ',
                   ),
                   CustomTashteb(
-                    photo: "assets/cards/44.png",
+                    photo: 'assets/cards/Group 48095503.png',
                     price: "3200",
                     tittle: 'تركيب سيراميك كامل السعر للغرفة ',
                   ),
                   CustomTashteb(
-                    photo: "assets/cards/55 1.png",
+                    photo: 'assets/cards/Group 48095504.png',
                     price: "3200",
                     tittle: 'تركيب كهرباء كاملة السعر للغرفه  ',
                   ),

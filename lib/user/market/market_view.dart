@@ -6,8 +6,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sahelnahaa/user/carts/cart_view.dart';
-import 'package:sahelnahaa/user/chatbot/chat_screen.dart';
 import 'package:sahelnahaa/user/home%20page/home_page.dart';
+import 'package:sahelnahaa/user/inbox/chatbot.dart';
 import 'package:sahelnahaa/user/market/custom_card.dart';
 import 'package:sahelnahaa/user/order/orderview.dart';
 import 'package:sahelnahaa/user/profile/favourite.dart';
@@ -23,12 +23,8 @@ class MarketView extends StatefulWidget {
 }
 
 class _MarketViewState extends State<MarketView> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 2; // Default to Market page
   final ImagePicker _picker = ImagePicker();
-  // ignore: unused_field, prefer_final_fields
-  Color _selectedColor = Colors.transparent;
-  // ignore: unused_field, prefer_final_fields
-  int _currentIndex = 1;
   final PageController pageController = PageController();
   // ignore: prefer_final_fields
   List<XFile> _images = [];
@@ -61,38 +57,44 @@ class _MarketViewState extends State<MarketView> {
   }
 
   void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const Orderview();
-        }));
-        break;
-      case 3:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const HomePage();
-        }));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const RepairView();
-        }));
-        break;
-      // ignore: unreachable_switch_case
-      case 3:
-        if (_selectedIndex != 3) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const HomePage();
-          }));
-        }
-        break;
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Orderview(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 2;
+        });
+      });
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RepairView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 2;
+        });
+      });
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 2;
+        });
+      });
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
     }
-
-    setState(() {
-      _selectedIndex = 2;
-    });
   }
 
   @override

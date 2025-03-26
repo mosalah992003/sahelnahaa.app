@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:sahelnahaa/splash/splash.dart';
-import 'package:sahelnahaa/user/chatbot/const.dart';
 import 'package:screen_go/models/screen_go_model.dart';
 import 'package:screen_go/screen_go.dart';
 
 void main() {
-  Gemini.init(apiKey: GEMINI_API_KEY);
-
   runApp(const sahelnahaa());
 }
 

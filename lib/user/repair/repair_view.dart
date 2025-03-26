@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:sahelnahaa/user/chatbot/chat_screen.dart';
 import 'package:sahelnahaa/user/home%20page/home_page.dart';
+import 'package:sahelnahaa/user/inbox/chatbot.dart';
 import 'package:sahelnahaa/user/market/market_view.dart';
 import 'package:sahelnahaa/user/order/orderview.dart';
 
@@ -22,43 +22,47 @@ class RepairView extends StatefulWidget {
 }
 
 class _RepairViewState extends State<RepairView> {
-  int _selectedIndex = 1; // Default selected index for home icon
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const Orderview();
-        }));
-        break;
-      case 3:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const HomePage();
-        }));
-        break;
-      case 2:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const MarketView();
-        }));
-        break;
-      // ignore: unreachable_switch_case
-      case 3:
-        // Prevent pushing the HomePage again if already on it
-        if (_selectedIndex != 3) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const HomePage(); // Navigate back to HomePage
-          }));
-        }
-        break;
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Orderview(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 1;
+        });
+      });
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MarketView(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 1;
+        });
+      });
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 1;
+        });
+      });
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
     }
-
-    setState(() {
-      _selectedIndex = 1; // Update selected index
-    });
   }
 
   @override

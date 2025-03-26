@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:sahelnahaa/user/market/market_view.dart';
 import 'package:screen_go/extensions/responsive_nums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -14,6 +15,7 @@ class FavouritePage extends StatefulWidget {
 
 class _FavouritePageState extends State<FavouritePage> {
   List<FavouriteItem> favourites = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -30,6 +32,11 @@ class _FavouritePageState extends State<FavouritePage> {
         favourites = jsonList
             .map((e) => FavouriteItem.fromJson(e as Map<String, dynamic>))
             .toList();
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
       });
     }
   }
@@ -54,188 +61,317 @@ class _FavouritePageState extends State<FavouritePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF20776B),
-        title: Center(
-          child: Text(
-            'المفضلة',
-            textAlign: TextAlign.right,
+        elevation: 0,
+        title: Text(
+          'المفضلة',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 5.w,
+            fontFamily: 'noto',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          : Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF20776B),
+                    Color(0xFF114A42),
+                  ],
+                ),
+              ),
+              child: favourites.isEmpty
+                  ? _buildEmptyState()
+                  : _buildFavouritesList(),
+            ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/shop/freepik__background__98815.png',
+            width: 70.w,
+            height: 30.h,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 2.h),
+          Text(
+            'لا توجد عناصر في المفضلة',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18.sp, // Adjust font size as needed
+              fontSize: 16.sp,
               fontFamily: 'noto',
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 2.h),
+          ElevatedButton.icon(
+            icon: const Icon(Icons.add, color: Color(0xFF20776B)),
+            label: Text(
+              'إضافة للمفضلة',
+              style: TextStyle(
+                color: const Color(0xFF20776B),
+                fontSize: 14.sp,
+                fontFamily: 'noto',
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(1.5.h),
+              ),
+              elevation: 2,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const MarketView();
+              }));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFavouritesList() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'عناصر المفضلة (${favourites.length})',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.9),
+              fontSize: 14.sp,
+              fontFamily: 'noto',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 2.h),
+          Expanded(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: favourites.length,
+              itemBuilder: (context, index) {
+                final item = favourites[index];
+                return _buildFavouriteCard(item);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFavouriteCard(FavouriteItem item) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 2.h),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(2.h),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2.h),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              // Navigate to details page
+            },
+            splashColor: Colors.white.withOpacity(0.1),
+            child: Padding(
+              padding: EdgeInsets.all(2.w),
+              child: Row(
+                children: [
+                  Container(
+                    width: 22.w,
+                    height: 8.h,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF114A42),
+                      borderRadius: BorderRadius.circular(1.5.h),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(1.5.h),
+                      child: Image.asset(
+                        item.photo,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 4.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          item.title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontFamily: 'noto',
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 0.5.h),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.bookmark,
+                              color: Colors.white.withOpacity(0.7),
+                              size: 2.h,
+                            ),
+                            SizedBox(width: 1.w),
+                            Text(
+                              'مضاف للمفضلة',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.7),
+                                fontSize: 12.sp,
+                                fontFamily: 'noto',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => _showDeleteConfirmation(context, item),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: favourites.isEmpty
-            ? Center(
-                child: Image.asset(
-                  'assets/shop/freepik__background__98815.png',
-                  width: 80.w, // Adjust width as needed
-                  height: 30.h, // Adjust height as needed
-                  fit: BoxFit.contain,
-                ),
-              )
-            : ListView.builder(
-                itemCount: favourites.length,
-                itemBuilder: (context, index) {
-                  final item = favourites[index];
-                  return Container(
-                    width: double.infinity,
-                    height: 9.h,
-                    margin: EdgeInsets.only(bottom: 2.h),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xff20776b).withOpacity(.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.h),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x3D000000),
-                          blurRadius: 1,
-                          offset: Offset(0, 0),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 3.w),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: Colors.white,
-                              size: 2.5.h,
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Center(
-                                      child: Text(
-                                        "تنبيه",
-                                        style: TextStyle(
-                                          fontFamily: "noto",
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    actions: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.red.shade700,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3.h),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  _removeFromFavourites(
-                                                      item.title);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text(
-                                                  "حذف",
-                                                  style: TextStyle(
-                                                    fontFamily: "noto",
-                                                    fontSize: 15.sp,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 4.w),
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xff20776b),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3.h),
-                                                  ),
-                                                ),
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text(
-                                                  "إلغاء",
-                                                  style: TextStyle(
-                                                    fontFamily: "noto",
-                                                    fontSize: 15.sp,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            item.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontFamily: 'noto',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(width: 1.w),
-                        Container(
-                          width: 20.w,
-                          height: 9.h,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF114A42),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                width: 0.63,
-                                color: Color(0xFF124A42),
-                              ),
-                              borderRadius: BorderRadius.circular(2.h),
-                            ),
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              item.photo,
-                              width: 18.w,
-                              height: 6.h,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, FavouriteItem item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(2.h),
+          ),
+          title: Column(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                color: Colors.amber,
+                size: 6.h,
               ),
-      ),
+              SizedBox(height: 1.h),
+              Text(
+                "تنبيه",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "noto",
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            "هل تريد حذف ${item.title} من المفضلة؟",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: "noto",
+              fontSize: 14.sp,
+              color: Colors.black87,
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red.shade700,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(1.5.h),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 1.h),
+                      ),
+                      onPressed: () {
+                        _removeFromFavourites(item.title);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "حذف",
+                        style: TextStyle(
+                          fontFamily: "noto",
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 3.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey.shade200,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(1.5.h),
+                        ),
+                        elevation: 0,
+                        padding: EdgeInsets.symmetric(vertical: 1.h),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        "إلغاء",
+                        style: TextStyle(
+                          fontFamily: "noto",
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
